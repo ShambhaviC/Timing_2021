@@ -1,0 +1,2060 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Activity1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:vci="clr-namespace:Versuch.Core.Individual;assembly=PhenoSoft"
+ xmlns:vmr="clr-namespace:Versuch.Modules.RFIDCondition;assembly=PhenoSoft"
+ xmlns:vu="clr-namespace:Versuch.Units;assembly=PhenoSoft"
+ xmlns:vw="clr-namespace:Versuch.Workflows;assembly=PhenoSoft"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="ind" Type="InArgument(vci:Individual)" />
+    <x:Property Name="startTime" Type="InArgument(s:DateTime)" />
+    <x:Property Name="endTime" Type="InArgument(s:DateTime)" />
+    <x:Property Name="door1" Type="InArgument(vu:AngleMotorUnit)" />
+    <x:Property Name="door2" Type="InArgument(vu:AngleMotorUnit)" />
+    <x:Property Name="mod1" Type="InArgument(vmr:RfidConditionModule)" />
+    <x:Property Name="mod2" Type="InArgument(vmr:RfidConditionModule)" />
+    <x:Property Name="out1" Type="InArgument(vmr:ConstantOutputFunction)" />
+    <x:Property Name="out2" Type="InArgument(vmr:ConstantOutputFunction)" />
+    <x:Property Name="poke1" Type="InArgument(vu:DigitalIn)" />
+    <x:Property Name="poke2" Type="InArgument(vu:DigitalIn)" />
+    <x:Property Name="lockdownStartTimes" Type="InArgument(scg:List(x:Int32))" />
+    <x:Property Name="lockdownDurationTimes" Type="InArgument(scg:List(x:Int32))" />
+    <x:Property Name="activeFlowerList" Type="InArgument(scg:List(x:Int32))" />
+    <x:Property Name="initialValue" Type="InArgument(x:Int32)" />
+    <x:Property Name="rateValue" Type="InArgument(x:Double)" />
+    <x:Property Name="reader1" Type="InArgument(vu:TransponderUnit)" />
+    <x:Property Name="reader2" Type="InArgument(vu:TransponderUnit)" />
+    <x:Property Name="halfTimeList" Type="InArgument(scg:List(x:Int32))" />
+    <x:Property Name="blockDurationList" Type="InArgument(scg:List(x:Int32))" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>Activity1_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>System.Windows.Controls</x:String>
+      <x:String>System.Windows.Documents</x:String>
+      <x:String>System.Windows.Shapes</x:String>
+      <x:String>System.Windows.Shell</x:String>
+      <x:String>System.Windows.Navigation</x:String>
+      <x:String>System.Windows.Data</x:String>
+      <x:String>System.Windows</x:String>
+      <x:String>System.Windows.Controls.Primitives</x:String>
+      <x:String>System.Windows.Media.Animation</x:String>
+      <x:String>System.Windows.Input</x:String>
+      <x:String>System.Windows.Media</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Windows.Media.Media3D</x:String>
+      <x:String>System.Windows.Media.Imaging</x:String>
+      <x:String>System.Windows.Automation</x:String>
+      <x:String>System.Windows.Media.TextFormatting</x:String>
+      <x:String>System.Windows.Ink</x:String>
+      <x:String>System.Windows.Media.Effects</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities.Debugger</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>Versuch.Core.Individual</x:String>
+      <x:String>Versuch.Units</x:String>
+      <x:String>Versuch.Core.Units</x:String>
+      <x:String>Versuch.Modules.RFIDCondition</x:String>
+      <x:String>Versuch.Core.Modules</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>PhenoSoft</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <StateMachine sap2010:WorkflowViewState.IdRef="StateMachine_1">
+    <StateMachine.InitialState>
+      <State x:Name="__ReferenceID39" DisplayName="State1" sap2010:WorkflowViewState.IdRef="State_57">
+        <State.Entry>
+          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_80">
+            <If Condition="[lockdownStartTimes.Count = lockdownDurationTimes.Count and&#xA;lockdownStartTimes.Count = activeFlowerList.Count and&#xA;lockdownStartTimes.Count = halfTimeList.Count and&#xD;&#xA;lockdownStartTimes.Count = blockDurationList.Count]" sap2010:WorkflowViewState.IdRef="If_4">
+              <If.Then>
+                <Assign sap2010:WorkflowViewState.IdRef="Assign_86">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Boolean">[canStart]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </If.Then>
+              <If.Else>
+                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_79">
+                  <Assign sap2010:WorkflowViewState.IdRef="Assign_87">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Boolean">[canStart]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <vw:LogMessage MsgVal1="{x:Null}" MsgVal2="{x:Null}" MsgVal3="{x:Null}" sap2010:WorkflowViewState.IdRef="LogMessage_4" Individual="[ind]" Message="all lists must be of same size" />
+                </Sequence>
+              </If.Else>
+            </If>
+          </Sequence>
+        </State.Entry>
+        <State.Transitions>
+          <Transition DisplayName="" sap2010:WorkflowViewState.IdRef="Transition_92" Condition="[canStart]">
+            <Transition.To>
+              <State x:Name="__ReferenceID37" DisplayName="wait start" sap2010:WorkflowViewState.IdRef="State_4">
+                <State.Entry>
+                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_4">
+                    <vw:SetCurrentAnimal sap2010:WorkflowViewState.IdRef="SetCurrentAnimal_1" Individual="[ind]" Modules="[{mod1, mod2}]" />
+                    <vw:HandleOutputFunction Activate="False" sap2010:WorkflowViewState.IdRef="HandleOutputFunction_40" Individual="[ind]" OutFunctions="[{out1, out2}]" />
+                    <Assign sap2010:WorkflowViewState.IdRef="Assign_1">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:TimeSpan">[startOffset]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:TimeSpan">[startTime.Subtract(DateTime.Now)]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <If Condition="[startOffset &lt; TimeSpan.Zero]" sap2010:WorkflowViewState.IdRef="If_1">
+                      <If.Then>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_2">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:TimeSpan">[startOffset]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:TimeSpan">[TimeSpan.FromSeconds(1)]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </If.Then>
+                    </If>
+                    <vw:LogMessage MsgVal2="{x:Null}" MsgVal3="{x:Null}" sap2010:WorkflowViewState.IdRef="LogMessage_1" Individual="[ind]" Message="start exp in" MsgVal1="[startOffset.ToString()]" />
+                    <vw:MoveServoMotor Position="{x:Null}" sap2010:WorkflowViewState.IdRef="MoveServoMotor_45" Motors="[{door1, door2}]" Open="False" />
+                    <vw:DigInMessages Action="Disable" DigInputs="[{poke1, poke2}]" sap2010:WorkflowViewState.IdRef="DigInMessages_27" />
+                  </Sequence>
+                </State.Entry>
+                <State.Transitions>
+                  <Transition DisplayName="start" sap2010:WorkflowViewState.IdRef="Transition_7">
+                    <Transition.Trigger>
+                      <Delay Duration="[startOffset]" sap2010:WorkflowViewState.IdRef="Delay_1" />
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <State x:Name="__ReferenceID38" DisplayName="exp" sap2010:WorkflowViewState.IdRef="State_5">
+                        <State.Entry>
+                          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_6">
+                            <Assign sap2010:WorkflowViewState.IdRef="Assign_3">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:TimeSpan">[runTime]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:TimeSpan">[endTime.Subtract(DateTime.Now)]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <If Condition="[runTime &lt; TimeSpan.Zero]" sap2010:WorkflowViewState.IdRef="If_2">
+                              <If.Then>
+                                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_5">
+                                  <Assign sap2010:WorkflowViewState.IdRef="Assign_4">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="s:DateTime">[endTime]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="s:DateTime">[endTime.AddDays(1)]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <Assign sap2010:WorkflowViewState.IdRef="Assign_5">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:TimeSpan">[runTime]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:TimeSpan">[endTime.Subtract(DateTime.Now)]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                </Sequence>
+                              </If.Then>
+                            </If>
+                            <vw:LogMessage MsgVal2="{x:Null}" MsgVal3="{x:Null}" sap2010:WorkflowViewState.IdRef="LogMessage_2" Individual="[ind]" Message="start exp" MsgVal1="[runTime.ToString()]" />
+                            <Parallel sap2010:WorkflowViewState.IdRef="Parallel_1" CompletionCondition="True">
+                              <Delay DisplayName="run time" Duration="[runTime]" sap2010:WorkflowViewState.IdRef="Delay_2" />
+                              <Flowchart DisplayName="rev block" sap2010:WorkflowViewState.IdRef="Flowchart_1">
+                                <Flowchart.Variables>
+                                  <Variable x:TypeArguments="s:DateTime" Name="startBlockTime" />
+                                  <Variable x:TypeArguments="s:DateTime" Name="endRewTime" />
+                                  <Variable x:TypeArguments="x:Int32" Name="halfTime" />
+                                  <Variable x:TypeArguments="x:Int32" Name="activeFlower" />
+                                  <Variable x:TypeArguments="s:DateTime" Name="endBlockTime" />
+                                  <Variable x:TypeArguments="s:DateTime" Name="lockdownEnd" />
+                                  <Variable x:TypeArguments="x:TimeSpan" Name="blockDuration" />
+                                </Flowchart.Variables>
+                                <Flowchart.StartNode>
+                                  <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_4">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_90">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Int32">[revBlockNbr]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Int32">[revBlockNbr + 1]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <FlowStep.Next>
+                                      <FlowStep x:Name="__ReferenceID14" sap2010:WorkflowViewState.IdRef="FlowStep_17">
+                                        <vw:LogMessage MsgVal2="{x:Null}" MsgVal3="{x:Null}" sap2010:WorkflowViewState.IdRef="LogMessage_9" Individual="[ind]" Message="start block nbr" MsgVal1="[revBlockNbr.ToString()]" />
+                                        <FlowStep.Next>
+                                          <FlowDecision x:Name="__ReferenceID11" Condition="[revBlockNbr &gt;= blockDurationList.Count]" DisplayName="no blocks?" sap2010:WorkflowViewState.IdRef="FlowDecision_1">
+                                            <FlowDecision.True>
+                                              <FlowStep x:Name="__ReferenceID12" sap2010:WorkflowViewState.IdRef="FlowStep_3">
+                                                <vw:LogMessage MsgVal1="{x:Null}" MsgVal2="{x:Null}" MsgVal3="{x:Null}" sap2010:WorkflowViewState.IdRef="LogMessage_5" Individual="[ind]" Message="no blocks more-&gt; stop" />
+                                              </FlowStep>
+                                            </FlowDecision.True>
+                                            <FlowDecision.False>
+                                              <FlowStep x:Name="__ReferenceID10" sap2010:WorkflowViewState.IdRef="FlowStep_2">
+                                                <Assign sap2010:WorkflowViewState.IdRef="Assign_88">
+                                                  <Assign.To>
+                                                    <OutArgument x:TypeArguments="s:DateTime">[startBlockTime]</OutArgument>
+                                                  </Assign.To>
+                                                  <Assign.Value>
+                                                    <InArgument x:TypeArguments="s:DateTime">[DateTime.Now]</InArgument>
+                                                  </Assign.Value>
+                                                </Assign>
+                                                <FlowStep.Next>
+                                                  <FlowStep x:Name="__ReferenceID19" sap2010:WorkflowViewState.IdRef="FlowStep_38">
+                                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_258">
+                                                      <Assign.To>
+                                                        <OutArgument x:TypeArguments="s:DateTime">[endBlockTime]</OutArgument>
+                                                      </Assign.To>
+                                                      <Assign.Value>
+                                                        <InArgument x:TypeArguments="s:DateTime">[startBlockTime.AddSeconds(blockDurationList(revBlockNbr))]</InArgument>
+                                                      </Assign.Value>
+                                                    </Assign>
+                                                    <FlowStep.Next>
+                                                      <FlowStep x:Name="__ReferenceID13" sap2010:WorkflowViewState.IdRef="FlowStep_11">
+                                                        <Assign sap2010:WorkflowViewState.IdRef="Assign_101">
+                                                          <Assign.To>
+                                                            <OutArgument x:TypeArguments="x:Int32">[halfTime]</OutArgument>
+                                                          </Assign.To>
+                                                          <Assign.Value>
+                                                            <InArgument x:TypeArguments="x:Int32">[halfTimeList(revBlockNbr)]</InArgument>
+                                                          </Assign.Value>
+                                                        </Assign>
+                                                        <FlowStep.Next>
+                                                          <FlowStep x:Name="__ReferenceID16" sap2010:WorkflowViewState.IdRef="FlowStep_33">
+                                                            <Assign sap2010:WorkflowViewState.IdRef="Assign_251">
+                                                              <Assign.To>
+                                                                <OutArgument x:TypeArguments="x:Int32">[activeFlower]</OutArgument>
+                                                              </Assign.To>
+                                                              <Assign.Value>
+                                                                <InArgument x:TypeArguments="x:Int32">[activeFlowerList(revBlockNbr)]</InArgument>
+                                                              </Assign.Value>
+                                                            </Assign>
+                                                            <FlowStep.Next>
+                                                              <FlowStep x:Name="__ReferenceID18" sap2010:WorkflowViewState.IdRef="FlowStep_37">
+                                                                <vw:LogMessage MsgVal2="{x:Null}" MsgVal3="{x:Null}" sap2010:WorkflowViewState.IdRef="LogMessage_25" Individual="[ind]" Message="half time" MsgVal1="[halfTime.ToString()]" />
+                                                                <FlowStep.Next>
+                                                                  <FlowStep x:Name="__ReferenceID31" sap2010:WorkflowViewState.IdRef="FlowStep_55">
+                                                                    <Sequence DisplayName="calc lockdown end" sap2010:WorkflowViewState.IdRef="Sequence_186">
+                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_300">
+                                                                        <Assign.To>
+                                                                          <OutArgument x:TypeArguments="s:DateTime">[lockdownEnd]</OutArgument>
+                                                                        </Assign.To>
+                                                                        <Assign.Value>
+                                                                          <InArgument x:TypeArguments="s:DateTime">[startBlockTime.AddSeconds(lockdownStartTimes(revBlockNbr)).AddSeconds(lockdownDurationTimes(revBlockNbr))]</InArgument>
+                                                                        </Assign.Value>
+                                                                      </Assign>
+                                                                      <If Condition="[lockdownEnd &gt; endBlockTime]" sap2010:WorkflowViewState.IdRef="If_55">
+                                                                        <If.Then>
+                                                                          <Assign sap2010:WorkflowViewState.IdRef="Assign_301">
+                                                                            <Assign.To>
+                                                                              <OutArgument x:TypeArguments="s:DateTime">[lockdownEnd]</OutArgument>
+                                                                            </Assign.To>
+                                                                            <Assign.Value>
+                                                                              <InArgument x:TypeArguments="s:DateTime">[endBlockTime]</InArgument>
+                                                                            </Assign.Value>
+                                                                          </Assign>
+                                                                        </If.Then>
+                                                                      </If>
+                                                                    </Sequence>
+                                                                    <FlowStep.Next>
+                                                                      <FlowDecision x:Name="__ReferenceID15" Condition="[lockdownStartTimes(revBlockNbr) = 0]" DisplayName="lockdown?" sap2010:WorkflowViewState.IdRef="FlowDecision_3">
+                                                                        <FlowDecision.True>
+                                                                          <FlowStep x:Name="__ReferenceID9" sap2010:WorkflowViewState.IdRef="FlowStep_45">
+                                                                            <Sequence DisplayName="close doors" sap2010:WorkflowViewState.IdRef="Sequence_167">
+                                                                              <Sequence sap2010:WorkflowViewState.IdRef="Sequence_166">
+                                                                                <If Condition="[not door1Closed]" sap2010:WorkflowViewState.IdRef="If_42">
+                                                                                  <If.Then>
+                                                                                    <Sequence sap2010:WorkflowViewState.IdRef="Sequence_164">
+                                                                                      <vw:MoveServoMotor Position="{x:Null}" sap2010:WorkflowViewState.IdRef="MoveServoMotor_60" Motors="[{door1}]" Open="False" />
+                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_262">
+                                                                                        <Assign.To>
+                                                                                          <OutArgument x:TypeArguments="x:Boolean">[door1Closed]</OutArgument>
+                                                                                        </Assign.To>
+                                                                                        <Assign.Value>
+                                                                                          <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                                                                        </Assign.Value>
+                                                                                      </Assign>
+                                                                                    </Sequence>
+                                                                                  </If.Then>
+                                                                                </If>
+                                                                                <If Condition="[not door2Closed]" sap2010:WorkflowViewState.IdRef="If_43">
+                                                                                  <If.Then>
+                                                                                    <Sequence sap2010:WorkflowViewState.IdRef="Sequence_165">
+                                                                                      <vw:MoveServoMotor Position="{x:Null}" sap2010:WorkflowViewState.IdRef="MoveServoMotor_61" Motors="[{door2}]" Open="False" />
+                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_263">
+                                                                                        <Assign.To>
+                                                                                          <OutArgument x:TypeArguments="x:Boolean">[door2Closed]</OutArgument>
+                                                                                        </Assign.To>
+                                                                                        <Assign.Value>
+                                                                                          <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                                                                        </Assign.Value>
+                                                                                      </Assign>
+                                                                                    </Sequence>
+                                                                                  </If.Then>
+                                                                                </If>
+                                                                              </Sequence>
+                                                                            </Sequence>
+                                                                            <FlowStep.Next>
+                                                                              <FlowDecision x:Name="__ReferenceID20" Condition="[lockdownEnd &gt;= endBlockTime]" DisplayName="block?" sap2010:WorkflowViewState.IdRef="FlowDecision_5">
+                                                                                <FlowDecision.True>
+                                                                                  <FlowStep x:Name="__ReferenceID21" sap2010:WorkflowViewState.IdRef="FlowStep_41">
+                                                                                    <vw:LogMessage MsgVal1="{x:Null}" MsgVal2="{x:Null}" MsgVal3="{x:Null}" sap2010:WorkflowViewState.IdRef="LogMessage_26" Individual="[ind]" Message="block until the end" />
+                                                                                    <FlowStep.Next>
+                                                                                      <FlowStep x:Name="__ReferenceID34" sap2010:WorkflowViewState.IdRef="FlowStep_57">
+                                                                                        <Sequence DisplayName="calc block duration" sap2010:WorkflowViewState.IdRef="Sequence_188">
+                                                                                          <Assign sap2010:WorkflowViewState.IdRef="Assign_304">
+                                                                                            <Assign.To>
+                                                                                              <OutArgument x:TypeArguments="x:TimeSpan">[blockDuration]</OutArgument>
+                                                                                            </Assign.To>
+                                                                                            <Assign.Value>
+                                                                                              <InArgument x:TypeArguments="x:TimeSpan">[endBlockTime.Subtract(DateTime.Now)]</InArgument>
+                                                                                            </Assign.Value>
+                                                                                          </Assign>
+                                                                                          <If Condition="[blockDuration &lt; TimeSpan.Zero]" sap2010:WorkflowViewState.IdRef="If_57">
+                                                                                            <If.Then>
+                                                                                              <Assign sap2010:WorkflowViewState.IdRef="Assign_305">
+                                                                                                <Assign.To>
+                                                                                                  <OutArgument x:TypeArguments="x:TimeSpan">[blockDuration]</OutArgument>
+                                                                                                </Assign.To>
+                                                                                                <Assign.Value>
+                                                                                                  <InArgument x:TypeArguments="x:TimeSpan">00:00:01</InArgument>
+                                                                                                </Assign.Value>
+                                                                                              </Assign>
+                                                                                            </If.Then>
+                                                                                          </If>
+                                                                                        </Sequence>
+                                                                                        <FlowStep.Next>
+                                                                                          <FlowStep x:Name="__ReferenceID22" sap2010:WorkflowViewState.IdRef="FlowStep_39">
+                                                                                            <Delay Duration="[blockDuration]" sap2010:WorkflowViewState.IdRef="Delay_37" />
+                                                                                            <FlowStep.Next>
+                                                                                              <x:Reference>__ReferenceID0</x:Reference>
+                                                                                            </FlowStep.Next>
+                                                                                          </FlowStep>
+                                                                                        </FlowStep.Next>
+                                                                                      </FlowStep>
+                                                                                    </FlowStep.Next>
+                                                                                  </FlowStep>
+                                                                                </FlowDecision.True>
+                                                                                <FlowDecision.False>
+                                                                                  <FlowStep x:Name="__ReferenceID23" sap2010:WorkflowViewState.IdRef="FlowStep_44">
+                                                                                    <vw:LogMessage MsgVal1="{x:Null}" MsgVal2="{x:Null}" MsgVal3="{x:Null}" sap2010:WorkflowViewState.IdRef="LogMessage_27" Individual="[ind]" Message="enter lockdown" />
+                                                                                    <FlowStep.Next>
+                                                                                      <FlowStep x:Name="__ReferenceID35" sap2010:WorkflowViewState.IdRef="FlowStep_58">
+                                                                                        <Sequence DisplayName="calc block duration" sap2010:WorkflowViewState.IdRef="Sequence_189">
+                                                                                          <Assign sap2010:WorkflowViewState.IdRef="Assign_306">
+                                                                                            <Assign.To>
+                                                                                              <OutArgument x:TypeArguments="x:TimeSpan">[blockDuration]</OutArgument>
+                                                                                            </Assign.To>
+                                                                                            <Assign.Value>
+                                                                                              <InArgument x:TypeArguments="x:TimeSpan">[lockdownEnd.Subtract(DateTime.Now)]</InArgument>
+                                                                                            </Assign.Value>
+                                                                                          </Assign>
+                                                                                          <If Condition="[blockDuration &lt; TimeSpan.Zero]" sap2010:WorkflowViewState.IdRef="If_58">
+                                                                                            <If.Then>
+                                                                                              <Assign sap2010:WorkflowViewState.IdRef="Assign_307">
+                                                                                                <Assign.To>
+                                                                                                  <OutArgument x:TypeArguments="x:TimeSpan">[blockDuration]</OutArgument>
+                                                                                                </Assign.To>
+                                                                                                <Assign.Value>
+                                                                                                  <InArgument x:TypeArguments="x:TimeSpan">00:00:01</InArgument>
+                                                                                                </Assign.Value>
+                                                                                              </Assign>
+                                                                                            </If.Then>
+                                                                                          </If>
+                                                                                        </Sequence>
+                                                                                        <FlowStep.Next>
+                                                                                          <FlowStep x:Name="__ReferenceID24" sap2010:WorkflowViewState.IdRef="FlowStep_43">
+                                                                                            <Delay Duration="[blockDuration]" sap2010:WorkflowViewState.IdRef="Delay_38" />
+                                                                                            <FlowStep.Next>
+                                                                                              <FlowStep x:Name="__ReferenceID17" sap2010:WorkflowViewState.IdRef="FlowStep_32">
+                                                                                                <Sequence DisplayName="open doors" sap2010:WorkflowViewState.IdRef="Sequence_155">
+                                                                                                  <If Condition="[door1Closed]" sap2010:WorkflowViewState.IdRef="If_46">
+                                                                                                    <If.Then>
+                                                                                                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_171">
+                                                                                                        <vw:MoveServoMotor Position="{x:Null}" sap2010:WorkflowViewState.IdRef="MoveServoMotor_64" Motors="[{door1}]" Open="True" />
+                                                                                                        <Assign sap2010:WorkflowViewState.IdRef="Assign_266">
+                                                                                                          <Assign.To>
+                                                                                                            <OutArgument x:TypeArguments="x:Boolean">[door1Closed]</OutArgument>
+                                                                                                          </Assign.To>
+                                                                                                          <Assign.Value>
+                                                                                                            <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                                                                                          </Assign.Value>
+                                                                                                        </Assign>
+                                                                                                      </Sequence>
+                                                                                                    </If.Then>
+                                                                                                  </If>
+                                                                                                  <If Condition="[door2Closed]" sap2010:WorkflowViewState.IdRef="If_47">
+                                                                                                    <If.Then>
+                                                                                                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_172">
+                                                                                                        <vw:MoveServoMotor Position="{x:Null}" sap2010:WorkflowViewState.IdRef="MoveServoMotor_65" Motors="[{door2}]" Open="True" />
+                                                                                                        <Assign sap2010:WorkflowViewState.IdRef="Assign_267">
+                                                                                                          <Assign.To>
+                                                                                                            <OutArgument x:TypeArguments="x:Boolean">[door2Closed]</OutArgument>
+                                                                                                          </Assign.To>
+                                                                                                          <Assign.Value>
+                                                                                                            <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                                                                                          </Assign.Value>
+                                                                                                        </Assign>
+                                                                                                      </Sequence>
+                                                                                                    </If.Then>
+                                                                                                  </If>
+                                                                                                </Sequence>
+                                                                                                <FlowStep.Next>
+                                                                                                  <FlowStep x:Name="__ReferenceID25" sap2010:WorkflowViewState.IdRef="FlowStep_48">
+                                                                                                    <Assign DisplayName="endRewTime" sap2010:WorkflowViewState.IdRef="Assign_268">
+                                                                                                      <Assign.To>
+                                                                                                        <OutArgument x:TypeArguments="s:DateTime">[endRewTime]</OutArgument>
+                                                                                                      </Assign.To>
+                                                                                                      <Assign.Value>
+                                                                                                        <InArgument x:TypeArguments="s:DateTime">[endBlockTime]</InArgument>
+                                                                                                      </Assign.Value>
+                                                                                                    </Assign>
+                                                                                                    <FlowStep.Next>
+                                                                                                      <FlowStep x:Name="__ReferenceID27" sap2010:WorkflowViewState.IdRef="FlowStep_47">
+                                                                                                        <vw:LogMessage MsgVal2="{x:Null}" MsgVal3="{x:Null}" sap2010:WorkflowViewState.IdRef="LogMessage_28" Individual="[ind]" Message="start reward" MsgVal1="[lockdownStartTimes(revBlockNbr).ToString()]" />
+                                                                                                        <FlowStep.Next>
+                                                                                                          <FlowStep x:Name="__ReferenceID26" sap2010:WorkflowViewState.IdRef="FlowStep_46">
+                                                                                                            <StateMachine DisplayName="reward" sap2010:WorkflowViewState.IdRef="StateMachine_10">
+                                                                                                              <StateMachine.InitialState>
+                                                                                                                <State x:Name="__ReferenceID2" DisplayName="select flower" sap2010:WorkflowViewState.IdRef="State_65">
+                                                                                                                  <State.Entry>
+                                                                                                                    <If Condition="[activeFlower = 1]" sap2010:WorkflowViewState.IdRef="If_48">
+                                                                                                                      <If.Then>
+                                                                                                                        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_173">
+                                                                                                                          <Assign sap2010:WorkflowViewState.IdRef="Assign_269">
+                                                                                                                            <Assign.To>
+                                                                                                                              <OutArgument x:TypeArguments="vmr:RfidConditionModule">[condMod]</OutArgument>
+                                                                                                                            </Assign.To>
+                                                                                                                            <Assign.Value>
+                                                                                                                              <InArgument x:TypeArguments="vmr:RfidConditionModule">[mod1]</InArgument>
+                                                                                                                            </Assign.Value>
+                                                                                                                          </Assign>
+                                                                                                                          <Assign sap2010:WorkflowViewState.IdRef="Assign_270">
+                                                                                                                            <Assign.To>
+                                                                                                                              <OutArgument x:TypeArguments="vmr:ConstantOutputFunction">[outFunc]</OutArgument>
+                                                                                                                            </Assign.To>
+                                                                                                                            <Assign.Value>
+                                                                                                                              <InArgument x:TypeArguments="vmr:ConstantOutputFunction">[out1]</InArgument>
+                                                                                                                            </Assign.Value>
+                                                                                                                          </Assign>
+                                                                                                                          <Assign sap2010:WorkflowViewState.IdRef="Assign_271">
+                                                                                                                            <Assign.To>
+                                                                                                                              <OutArgument x:TypeArguments="vu:TransponderUnit">[reader]</OutArgument>
+                                                                                                                            </Assign.To>
+                                                                                                                            <Assign.Value>
+                                                                                                                              <InArgument x:TypeArguments="vu:TransponderUnit">[reader1]</InArgument>
+                                                                                                                            </Assign.Value>
+                                                                                                                          </Assign>
+                                                                                                                          <Assign sap2010:WorkflowViewState.IdRef="Assign_272">
+                                                                                                                            <Assign.To>
+                                                                                                                              <OutArgument x:TypeArguments="vu:DigitalIn">[poke]</OutArgument>
+                                                                                                                            </Assign.To>
+                                                                                                                            <Assign.Value>
+                                                                                                                              <InArgument x:TypeArguments="vu:DigitalIn">[poke1]</InArgument>
+                                                                                                                            </Assign.Value>
+                                                                                                                          </Assign>
+                                                                                                                          <vw:SetVisitMessage CondMod="[{mod2}]" sap2010:WorkflowViewState.IdRef="SetVisitMessage_10" Message="inactive" RemoveOnEnd="False" />
+                                                                                                                          <vw:DigInMessages Action="Enable" DigInputs="[{poke2}]" sap2010:WorkflowViewState.IdRef="DigInMessages_39" />
+                                                                                                                        </Sequence>
+                                                                                                                      </If.Then>
+                                                                                                                      <If.Else>
+                                                                                                                        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_174">
+                                                                                                                          <Assign sap2010:WorkflowViewState.IdRef="Assign_273">
+                                                                                                                            <Assign.To>
+                                                                                                                              <OutArgument x:TypeArguments="vmr:RfidConditionModule">[condMod]</OutArgument>
+                                                                                                                            </Assign.To>
+                                                                                                                            <Assign.Value>
+                                                                                                                              <InArgument x:TypeArguments="vmr:RfidConditionModule">[mod2]</InArgument>
+                                                                                                                            </Assign.Value>
+                                                                                                                          </Assign>
+                                                                                                                          <Assign sap2010:WorkflowViewState.IdRef="Assign_274">
+                                                                                                                            <Assign.To>
+                                                                                                                              <OutArgument x:TypeArguments="vmr:ConstantOutputFunction">[outFunc]</OutArgument>
+                                                                                                                            </Assign.To>
+                                                                                                                            <Assign.Value>
+                                                                                                                              <InArgument x:TypeArguments="vmr:ConstantOutputFunction">[out2]</InArgument>
+                                                                                                                            </Assign.Value>
+                                                                                                                          </Assign>
+                                                                                                                          <Assign sap2010:WorkflowViewState.IdRef="Assign_275">
+                                                                                                                            <Assign.To>
+                                                                                                                              <OutArgument x:TypeArguments="vu:TransponderUnit">[reader]</OutArgument>
+                                                                                                                            </Assign.To>
+                                                                                                                            <Assign.Value>
+                                                                                                                              <InArgument x:TypeArguments="vu:TransponderUnit">[reader2]</InArgument>
+                                                                                                                            </Assign.Value>
+                                                                                                                          </Assign>
+                                                                                                                          <Assign sap2010:WorkflowViewState.IdRef="Assign_276">
+                                                                                                                            <Assign.To>
+                                                                                                                              <OutArgument x:TypeArguments="vu:DigitalIn">[poke]</OutArgument>
+                                                                                                                            </Assign.To>
+                                                                                                                            <Assign.Value>
+                                                                                                                              <InArgument x:TypeArguments="vu:DigitalIn">[poke2]</InArgument>
+                                                                                                                            </Assign.Value>
+                                                                                                                          </Assign>
+                                                                                                                          <vw:SetVisitMessage CondMod="[{mod1}]" sap2010:WorkflowViewState.IdRef="SetVisitMessage_11" Message="inactive" RemoveOnEnd="False" />
+                                                                                                                          <vw:DigInMessages Action="Enable" DigInputs="[{poke1}]" sap2010:WorkflowViewState.IdRef="DigInMessages_40" />
+                                                                                                                        </Sequence>
+                                                                                                                      </If.Else>
+                                                                                                                    </If>
+                                                                                                                  </State.Entry>
+                                                                                                                  <State.Transitions>
+                                                                                                                    <Transition DisplayName="" sap2010:WorkflowViewState.IdRef="Transition_101">
+                                                                                                                      <Transition.To>
+                                                                                                                        <State x:Name="__ReferenceID1" DisplayName="wait visit" sap2010:WorkflowViewState.IdRef="State_64">
+                                                                                                                          <State.Entry>
+                                                                                                                            <vw:DigInMessages Action="Disable" DigInputs="[{poke}]" sap2010:WorkflowViewState.IdRef="DigInMessages_41" />
+                                                                                                                          </State.Entry>
+                                                                                                                          <State.Transitions>
+                                                                                                                            <Transition DisplayName="begin" sap2010:WorkflowViewState.IdRef="Transition_99">
+                                                                                                                              <Transition.Trigger>
+                                                                                                                                <vw:WaitForTransponder IdDeviceIndex="{x:Null}" IdDeviceName="{x:Null}" Event="Begin" sap2010:WorkflowViewState.IdRef="WaitForTransponder_3" Transponder="[{reader}]" />
+                                                                                                                              </Transition.Trigger>
+                                                                                                                              <Transition.To>
+                                                                                                                                <State x:Name="__ReferenceID3" DisplayName="reward" sap2010:WorkflowViewState.IdRef="State_62">
+                                                                                                                                  <State.Entry>
+                                                                                                                                    <Sequence sap2010:WorkflowViewState.IdRef="Sequence_175">
+                                                                                                                                      <Sequence.Variables>
+                                                                                                                                        <Variable x:TypeArguments="x:Int32" Name="time" />
+                                                                                                                                      </Sequence.Variables>
+                                                                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_277">
+                                                                                                                                        <Assign.To>
+                                                                                                                                          <OutArgument x:TypeArguments="x:Int32">[time]</OutArgument>
+                                                                                                                                        </Assign.To>
+                                                                                                                                        <Assign.Value>
+                                                                                                                                          <InArgument x:TypeArguments="x:Int32">[Convert.ToInt32(Math.Round(DateTime.Now.Subtract(startBlockTime).TotalSeconds))]</InArgument>
+                                                                                                                                        </Assign.Value>
+                                                                                                                                      </Assign>
+                                                                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_278">
+                                                                                                                                        <Assign.To>
+                                                                                                                                          <OutArgument x:TypeArguments="x:Int32">[rewValue]</OutArgument>
+                                                                                                                                        </Assign.To>
+                                                                                                                                        <Assign.Value>
+                                                                                                                                          <InArgument x:TypeArguments="x:Int32">[Convert.ToInt32(Math.Round(initialValue / (1 + Math.Exp(-rateValue * (halfTime - time)))))]</InArgument>
+                                                                                                                                        </Assign.Value>
+                                                                                                                                      </Assign>
+                                                                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_279">
+                                                                                                                                        <Assign.To>
+                                                                                                                                          <OutArgument x:TypeArguments="x:Int32">[outFunc.CurrentOutput]</OutArgument>
+                                                                                                                                        </Assign.To>
+                                                                                                                                        <Assign.Value>
+                                                                                                                                          <InArgument x:TypeArguments="x:Int32">[rewValue]</InArgument>
+                                                                                                                                        </Assign.Value>
+                                                                                                                                      </Assign>
+                                                                                                                                      <vw:LogMessage sap2010:WorkflowViewState.IdRef="LogMessage_29" Individual="[ind]" Message="rew func par" MsgVal1="[time.ToString()]" MsgVal2="[halfTime.ToString()]" MsgVal3="[rewValue.ToString()]" />
+                                                                                                                                      <vw:SetVisitMessage CondMod="[{condMod}]" sap2010:WorkflowViewState.IdRef="SetVisitMessage_12" Message="[time.ToString()]" RemoveOnEnd="True" />
+                                                                                                                                      <vw:HandleOutputFunction Activate="True" sap2010:WorkflowViewState.IdRef="HandleOutputFunction_73" Individual="[ind]" OutFunctions="[{outFunc}]" />
+                                                                                                                                      <vw:DigInMessages Action="Enable" DigInputs="[{poke}]" sap2010:WorkflowViewState.IdRef="DigInMessages_42" />
+                                                                                                                                    </Sequence>
+                                                                                                                                  </State.Entry>
+                                                                                                                                  <State.Transitions>
+                                                                                                                                    <Transition DisplayName="end" sap2010:WorkflowViewState.IdRef="Transition_98">
+                                                                                                                                      <Transition.Trigger>
+                                                                                                                                        <vw:WaitForTransponder IdDeviceIndex="{x:Null}" IdDeviceName="{x:Null}" Event="End" sap2010:WorkflowViewState.IdRef="WaitForTransponder_4" Transponder="[{reader}]" />
+                                                                                                                                      </Transition.Trigger>
+                                                                                                                                      <Transition.To>
+                                                                                                                                        <x:Reference>__ReferenceID1</x:Reference>
+                                                                                                                                      </Transition.To>
+                                                                                                                                    </Transition>
+                                                                                                                                  </State.Transitions>
+                                                                                                                                  <State.Variables>
+                                                                                                                                    <Variable x:TypeArguments="x:Int32" Name="rewValue" />
+                                                                                                                                  </State.Variables>
+                                                                                                                                </State>
+                                                                                                                              </Transition.To>
+                                                                                                                            </Transition>
+                                                                                                                            <Transition DisplayName="time over" sap2010:WorkflowViewState.IdRef="Transition_100">
+                                                                                                                              <Transition.Trigger>
+                                                                                                                                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_176">
+                                                                                                                                  <Assign sap2010:WorkflowViewState.IdRef="Assign_280">
+                                                                                                                                    <Assign.To>
+                                                                                                                                      <OutArgument x:TypeArguments="x:TimeSpan">[timeToEnd]</OutArgument>
+                                                                                                                                    </Assign.To>
+                                                                                                                                    <Assign.Value>
+                                                                                                                                      <InArgument x:TypeArguments="x:TimeSpan">[endRewTime.Subtract(DateTime.Now)]</InArgument>
+                                                                                                                                    </Assign.Value>
+                                                                                                                                  </Assign>
+                                                                                                                                  <If Condition="[timeToEnd &lt; TimeSpan.Zero]" sap2010:WorkflowViewState.IdRef="If_49">
+                                                                                                                                    <If.Then>
+                                                                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_281">
+                                                                                                                                        <Assign.To>
+                                                                                                                                          <OutArgument x:TypeArguments="x:TimeSpan">[timeToEnd]</OutArgument>
+                                                                                                                                        </Assign.To>
+                                                                                                                                        <Assign.Value>
+                                                                                                                                          <InArgument x:TypeArguments="x:TimeSpan">00:00:01</InArgument>
+                                                                                                                                        </Assign.Value>
+                                                                                                                                      </Assign>
+                                                                                                                                    </If.Then>
+                                                                                                                                  </If>
+                                                                                                                                  <Delay Duration="[timeToEnd]" sap2010:WorkflowViewState.IdRef="Delay_39" />
+                                                                                                                                </Sequence>
+                                                                                                                              </Transition.Trigger>
+                                                                                                                              <Transition.To>
+                                                                                                                                <State x:Name="__ReferenceID4" DisplayName="FinalState" sap2010:WorkflowViewState.IdRef="State_63" IsFinal="True">
+                                                                                                                                  <State.Entry>
+                                                                                                                                    <Sequence sap2010:WorkflowViewState.IdRef="Sequence_177">
+                                                                                                                                      <vw:HandleOutputFunction Activate="False" sap2010:WorkflowViewState.IdRef="HandleOutputFunction_74" Individual="[ind]" OutFunctions="[{outFunc}]" />
+                                                                                                                                      <vw:DigInMessages Action="Disable" DigInputs="[{poke1, poke2}]" sap2010:WorkflowViewState.IdRef="DigInMessages_43" />
+                                                                                                                                    </Sequence>
+                                                                                                                                  </State.Entry>
+                                                                                                                                </State>
+                                                                                                                              </Transition.To>
+                                                                                                                            </Transition>
+                                                                                                                          </State.Transitions>
+                                                                                                                          <State.Variables>
+                                                                                                                            <Variable x:TypeArguments="x:TimeSpan" Name="timeToEnd" />
+                                                                                                                          </State.Variables>
+                                                                                                                        </State>
+                                                                                                                      </Transition.To>
+                                                                                                                    </Transition>
+                                                                                                                  </State.Transitions>
+                                                                                                                </State>
+                                                                                                              </StateMachine.InitialState>
+                                                                                                              <x:Reference>__ReferenceID2</x:Reference>
+                                                                                                              <x:Reference>__ReferenceID1</x:Reference>
+                                                                                                              <x:Reference>__ReferenceID3</x:Reference>
+                                                                                                              <x:Reference>__ReferenceID4</x:Reference>
+                                                                                                              <StateMachine.Variables>
+                                                                                                                <Variable x:TypeArguments="vu:DigitalIn" Name="poke" />
+                                                                                                                <Variable x:TypeArguments="vmr:ConstantOutputFunction" Name="outFunc" />
+                                                                                                                <Variable x:TypeArguments="vu:TransponderUnit" Name="reader" />
+                                                                                                                <Variable x:TypeArguments="vmr:RfidConditionModule" Name="condMod" />
+                                                                                                              </StateMachine.Variables>
+                                                                                                            </StateMachine>
+                                                                                                            <FlowStep.Next>
+                                                                                                              <x:Reference>__ReferenceID0</x:Reference>
+                                                                                                            </FlowStep.Next>
+                                                                                                          </FlowStep>
+                                                                                                        </FlowStep.Next>
+                                                                                                      </FlowStep>
+                                                                                                    </FlowStep.Next>
+                                                                                                  </FlowStep>
+                                                                                                </FlowStep.Next>
+                                                                                              </FlowStep>
+                                                                                            </FlowStep.Next>
+                                                                                          </FlowStep>
+                                                                                        </FlowStep.Next>
+                                                                                      </FlowStep>
+                                                                                    </FlowStep.Next>
+                                                                                  </FlowStep>
+                                                                                </FlowDecision.False>
+                                                                              </FlowDecision>
+                                                                            </FlowStep.Next>
+                                                                          </FlowStep>
+                                                                        </FlowDecision.True>
+                                                                        <FlowDecision.False>
+                                                                          <FlowStep x:Name="__ReferenceID28" sap2010:WorkflowViewState.IdRef="FlowStep_53">
+                                                                            <vw:LogMessage MsgVal1="{x:Null}" MsgVal2="{x:Null}" MsgVal3="{x:Null}" sap2010:WorkflowViewState.IdRef="LogMessage_30" Individual="[ind]" Message="start reward" />
+                                                                            <FlowStep.Next>
+                                                                              <FlowStep x:Name="__ReferenceID32" sap2010:WorkflowViewState.IdRef="FlowStep_56">
+                                                                                <Sequence DisplayName="calc end reward time" sap2010:WorkflowViewState.IdRef="Sequence_187">
+                                                                                  <Assign DisplayName="from reversalTimes" sap2010:WorkflowViewState.IdRef="Assign_302">
+                                                                                    <Assign.To>
+                                                                                      <OutArgument x:TypeArguments="s:DateTime">[endRewTime]</OutArgument>
+                                                                                    </Assign.To>
+                                                                                    <Assign.Value>
+                                                                                      <InArgument x:TypeArguments="s:DateTime">[startBlockTime.AddSeconds(lockdownStartTimes(revBlockNbr))]</InArgument>
+                                                                                    </Assign.Value>
+                                                                                  </Assign>
+                                                                                  <If Condition="[endRewTime &gt; endBlockTime]" sap2010:WorkflowViewState.IdRef="If_56">
+                                                                                    <If.Then>
+                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_303">
+                                                                                        <Assign.To>
+                                                                                          <OutArgument x:TypeArguments="s:DateTime">[endRewTime]</OutArgument>
+                                                                                        </Assign.To>
+                                                                                        <Assign.Value>
+                                                                                          <InArgument x:TypeArguments="s:DateTime">[endBlockTime]</InArgument>
+                                                                                        </Assign.Value>
+                                                                                      </Assign>
+                                                                                    </If.Then>
+                                                                                  </If>
+                                                                                </Sequence>
+                                                                                <FlowStep.Next>
+                                                                                  <FlowStep x:Name="__ReferenceID29" sap2010:WorkflowViewState.IdRef="FlowStep_50">
+                                                                                    <Sequence DisplayName="open doors" sap2010:WorkflowViewState.IdRef="Sequence_180">
+                                                                                      <If Condition="[door1Closed]" sap2010:WorkflowViewState.IdRef="If_51">
+                                                                                        <If.Then>
+                                                                                          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_178">
+                                                                                            <vw:MoveServoMotor Position="{x:Null}" sap2010:WorkflowViewState.IdRef="MoveServoMotor_66" Motors="[{door1}]" Open="True" />
+                                                                                            <Assign sap2010:WorkflowViewState.IdRef="Assign_284">
+                                                                                              <Assign.To>
+                                                                                                <OutArgument x:TypeArguments="x:Boolean">[door1Closed]</OutArgument>
+                                                                                              </Assign.To>
+                                                                                              <Assign.Value>
+                                                                                                <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                                                                              </Assign.Value>
+                                                                                            </Assign>
+                                                                                          </Sequence>
+                                                                                        </If.Then>
+                                                                                      </If>
+                                                                                      <If Condition="[door2Closed]" sap2010:WorkflowViewState.IdRef="If_52">
+                                                                                        <If.Then>
+                                                                                          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_179">
+                                                                                            <vw:MoveServoMotor Position="{x:Null}" sap2010:WorkflowViewState.IdRef="MoveServoMotor_67" Motors="[{door2}]" Open="True" />
+                                                                                            <Assign sap2010:WorkflowViewState.IdRef="Assign_285">
+                                                                                              <Assign.To>
+                                                                                                <OutArgument x:TypeArguments="x:Boolean">[door2Closed]</OutArgument>
+                                                                                              </Assign.To>
+                                                                                              <Assign.Value>
+                                                                                                <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                                                                              </Assign.Value>
+                                                                                            </Assign>
+                                                                                          </Sequence>
+                                                                                        </If.Then>
+                                                                                      </If>
+                                                                                    </Sequence>
+                                                                                    <FlowStep.Next>
+                                                                                      <FlowStep x:Name="__ReferenceID30" sap2010:WorkflowViewState.IdRef="FlowStep_49">
+                                                                                        <StateMachine DisplayName="reward" sap2010:WorkflowViewState.IdRef="StateMachine_11">
+                                                                                          <StateMachine.InitialState>
+                                                                                            <State x:Name="__ReferenceID6" DisplayName="select flower" sap2010:WorkflowViewState.IdRef="State_69">
+                                                                                              <State.Entry>
+                                                                                                <If Condition="[activeFlower = 1]" sap2010:WorkflowViewState.IdRef="If_53">
+                                                                                                  <If.Then>
+                                                                                                    <Sequence sap2010:WorkflowViewState.IdRef="Sequence_181">
+                                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_286">
+                                                                                                        <Assign.To>
+                                                                                                          <OutArgument x:TypeArguments="vmr:RfidConditionModule">[condMod]</OutArgument>
+                                                                                                        </Assign.To>
+                                                                                                        <Assign.Value>
+                                                                                                          <InArgument x:TypeArguments="vmr:RfidConditionModule">[mod1]</InArgument>
+                                                                                                        </Assign.Value>
+                                                                                                      </Assign>
+                                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_287">
+                                                                                                        <Assign.To>
+                                                                                                          <OutArgument x:TypeArguments="vmr:ConstantOutputFunction">[outFunc]</OutArgument>
+                                                                                                        </Assign.To>
+                                                                                                        <Assign.Value>
+                                                                                                          <InArgument x:TypeArguments="vmr:ConstantOutputFunction">[out1]</InArgument>
+                                                                                                        </Assign.Value>
+                                                                                                      </Assign>
+                                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_288">
+                                                                                                        <Assign.To>
+                                                                                                          <OutArgument x:TypeArguments="vu:TransponderUnit">[reader]</OutArgument>
+                                                                                                        </Assign.To>
+                                                                                                        <Assign.Value>
+                                                                                                          <InArgument x:TypeArguments="vu:TransponderUnit">[reader1]</InArgument>
+                                                                                                        </Assign.Value>
+                                                                                                      </Assign>
+                                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_289">
+                                                                                                        <Assign.To>
+                                                                                                          <OutArgument x:TypeArguments="vu:DigitalIn">[poke]</OutArgument>
+                                                                                                        </Assign.To>
+                                                                                                        <Assign.Value>
+                                                                                                          <InArgument x:TypeArguments="vu:DigitalIn">[poke1]</InArgument>
+                                                                                                        </Assign.Value>
+                                                                                                      </Assign>
+                                                                                                      <vw:SetVisitMessage CondMod="[{mod2}]" sap2010:WorkflowViewState.IdRef="SetVisitMessage_13" Message="inactive" RemoveOnEnd="False" />
+                                                                                                      <vw:DigInMessages Action="Enable" DigInputs="[{poke2}]" sap2010:WorkflowViewState.IdRef="DigInMessages_44" />
+                                                                                                    </Sequence>
+                                                                                                  </If.Then>
+                                                                                                  <If.Else>
+                                                                                                    <Sequence sap2010:WorkflowViewState.IdRef="Sequence_182">
+                                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_290">
+                                                                                                        <Assign.To>
+                                                                                                          <OutArgument x:TypeArguments="vmr:RfidConditionModule">[condMod]</OutArgument>
+                                                                                                        </Assign.To>
+                                                                                                        <Assign.Value>
+                                                                                                          <InArgument x:TypeArguments="vmr:RfidConditionModule">[mod2]</InArgument>
+                                                                                                        </Assign.Value>
+                                                                                                      </Assign>
+                                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_291">
+                                                                                                        <Assign.To>
+                                                                                                          <OutArgument x:TypeArguments="vmr:ConstantOutputFunction">[outFunc]</OutArgument>
+                                                                                                        </Assign.To>
+                                                                                                        <Assign.Value>
+                                                                                                          <InArgument x:TypeArguments="vmr:ConstantOutputFunction">[out2]</InArgument>
+                                                                                                        </Assign.Value>
+                                                                                                      </Assign>
+                                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_292">
+                                                                                                        <Assign.To>
+                                                                                                          <OutArgument x:TypeArguments="vu:TransponderUnit">[reader]</OutArgument>
+                                                                                                        </Assign.To>
+                                                                                                        <Assign.Value>
+                                                                                                          <InArgument x:TypeArguments="vu:TransponderUnit">[reader2]</InArgument>
+                                                                                                        </Assign.Value>
+                                                                                                      </Assign>
+                                                                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_293">
+                                                                                                        <Assign.To>
+                                                                                                          <OutArgument x:TypeArguments="vu:DigitalIn">[poke]</OutArgument>
+                                                                                                        </Assign.To>
+                                                                                                        <Assign.Value>
+                                                                                                          <InArgument x:TypeArguments="vu:DigitalIn">[poke2]</InArgument>
+                                                                                                        </Assign.Value>
+                                                                                                      </Assign>
+                                                                                                      <vw:SetVisitMessage CondMod="[{mod1}]" sap2010:WorkflowViewState.IdRef="SetVisitMessage_14" Message="inactive" RemoveOnEnd="False" />
+                                                                                                      <vw:DigInMessages Action="Enable" DigInputs="[{poke1}]" sap2010:WorkflowViewState.IdRef="DigInMessages_45" />
+                                                                                                    </Sequence>
+                                                                                                  </If.Else>
+                                                                                                </If>
+                                                                                              </State.Entry>
+                                                                                              <State.Transitions>
+                                                                                                <Transition DisplayName="" sap2010:WorkflowViewState.IdRef="Transition_105">
+                                                                                                  <Transition.To>
+                                                                                                    <State x:Name="__ReferenceID5" DisplayName="wait visit" sap2010:WorkflowViewState.IdRef="State_68">
+                                                                                                      <State.Entry>
+                                                                                                        <vw:DigInMessages Action="Disable" DigInputs="[{poke}]" sap2010:WorkflowViewState.IdRef="DigInMessages_46" />
+                                                                                                      </State.Entry>
+                                                                                                      <State.Transitions>
+                                                                                                        <Transition DisplayName="begin" sap2010:WorkflowViewState.IdRef="Transition_103">
+                                                                                                          <Transition.Trigger>
+                                                                                                            <vw:WaitForTransponder IdDeviceIndex="{x:Null}" IdDeviceName="{x:Null}" Event="Begin" sap2010:WorkflowViewState.IdRef="WaitForTransponder_5" Transponder="[{reader}]" />
+                                                                                                          </Transition.Trigger>
+                                                                                                          <Transition.To>
+                                                                                                            <State x:Name="__ReferenceID7" DisplayName="reward" sap2010:WorkflowViewState.IdRef="State_66">
+                                                                                                              <State.Entry>
+                                                                                                                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_183">
+                                                                                                                  <Sequence.Variables>
+                                                                                                                    <Variable x:TypeArguments="x:Int32" Name="time" />
+                                                                                                                  </Sequence.Variables>
+                                                                                                                  <Assign sap2010:WorkflowViewState.IdRef="Assign_294">
+                                                                                                                    <Assign.To>
+                                                                                                                      <OutArgument x:TypeArguments="x:Int32">[time]</OutArgument>
+                                                                                                                    </Assign.To>
+                                                                                                                    <Assign.Value>
+                                                                                                                      <InArgument x:TypeArguments="x:Int32">[Convert.ToInt32(Math.Round(DateTime.Now.Subtract(startBlockTime).TotalSeconds))]</InArgument>
+                                                                                                                    </Assign.Value>
+                                                                                                                  </Assign>
+                                                                                                                  <Assign sap2010:WorkflowViewState.IdRef="Assign_295">
+                                                                                                                    <Assign.To>
+                                                                                                                      <OutArgument x:TypeArguments="x:Int32">[rewValue]</OutArgument>
+                                                                                                                    </Assign.To>
+                                                                                                                    <Assign.Value>
+                                                                                                                      <InArgument x:TypeArguments="x:Int32">[Convert.ToInt32(Math.Round(initialValue / (1 + Math.Exp(-rateValue * (halfTime - time)))))]</InArgument>
+                                                                                                                    </Assign.Value>
+                                                                                                                  </Assign>
+                                                                                                                  <Assign sap2010:WorkflowViewState.IdRef="Assign_296">
+                                                                                                                    <Assign.To>
+                                                                                                                      <OutArgument x:TypeArguments="x:Int32">[outFunc.CurrentOutput]</OutArgument>
+                                                                                                                    </Assign.To>
+                                                                                                                    <Assign.Value>
+                                                                                                                      <InArgument x:TypeArguments="x:Int32">[rewValue]</InArgument>
+                                                                                                                    </Assign.Value>
+                                                                                                                  </Assign>
+                                                                                                                  <vw:LogMessage sap2010:WorkflowViewState.IdRef="LogMessage_31" Individual="[ind]" Message="rew func par" MsgVal1="[time.ToString()]" MsgVal2="[halfTime.ToString()]" MsgVal3="[rewValue.ToString()]" />
+                                                                                                                  <vw:SetVisitMessage CondMod="[{condMod}]" sap2010:WorkflowViewState.IdRef="SetVisitMessage_15" Message="[time.ToString()]" RemoveOnEnd="True" />
+                                                                                                                  <vw:HandleOutputFunction Activate="True" sap2010:WorkflowViewState.IdRef="HandleOutputFunction_75" Individual="[ind]" OutFunctions="[{outFunc}]" />
+                                                                                                                  <vw:DigInMessages Action="Enable" DigInputs="[{poke}]" sap2010:WorkflowViewState.IdRef="DigInMessages_47" />
+                                                                                                                </Sequence>
+                                                                                                              </State.Entry>
+                                                                                                              <State.Transitions>
+                                                                                                                <Transition DisplayName="end" sap2010:WorkflowViewState.IdRef="Transition_102">
+                                                                                                                  <Transition.Trigger>
+                                                                                                                    <vw:WaitForTransponder IdDeviceIndex="{x:Null}" IdDeviceName="{x:Null}" Event="End" sap2010:WorkflowViewState.IdRef="WaitForTransponder_6" Transponder="[{reader}]" />
+                                                                                                                  </Transition.Trigger>
+                                                                                                                  <Transition.To>
+                                                                                                                    <x:Reference>__ReferenceID5</x:Reference>
+                                                                                                                  </Transition.To>
+                                                                                                                </Transition>
+                                                                                                              </State.Transitions>
+                                                                                                              <State.Variables>
+                                                                                                                <Variable x:TypeArguments="x:Int32" Name="rewValue" />
+                                                                                                              </State.Variables>
+                                                                                                            </State>
+                                                                                                          </Transition.To>
+                                                                                                        </Transition>
+                                                                                                        <Transition DisplayName="time over" sap2010:WorkflowViewState.IdRef="Transition_104">
+                                                                                                          <Transition.Trigger>
+                                                                                                            <Sequence sap2010:WorkflowViewState.IdRef="Sequence_184">
+                                                                                                              <Assign sap2010:WorkflowViewState.IdRef="Assign_297">
+                                                                                                                <Assign.To>
+                                                                                                                  <OutArgument x:TypeArguments="x:TimeSpan">[timeToEnd]</OutArgument>
+                                                                                                                </Assign.To>
+                                                                                                                <Assign.Value>
+                                                                                                                  <InArgument x:TypeArguments="x:TimeSpan">[endRewTime.Subtract(DateTime.Now)]</InArgument>
+                                                                                                                </Assign.Value>
+                                                                                                              </Assign>
+                                                                                                              <If Condition="[timeToEnd &lt; TimeSpan.Zero]" sap2010:WorkflowViewState.IdRef="If_54">
+                                                                                                                <If.Then>
+                                                                                                                  <Assign sap2010:WorkflowViewState.IdRef="Assign_298">
+                                                                                                                    <Assign.To>
+                                                                                                                      <OutArgument x:TypeArguments="x:TimeSpan">[timeToEnd]</OutArgument>
+                                                                                                                    </Assign.To>
+                                                                                                                    <Assign.Value>
+                                                                                                                      <InArgument x:TypeArguments="x:TimeSpan">00:00:01</InArgument>
+                                                                                                                    </Assign.Value>
+                                                                                                                  </Assign>
+                                                                                                                </If.Then>
+                                                                                                              </If>
+                                                                                                              <Delay Duration="[timeToEnd]" sap2010:WorkflowViewState.IdRef="Delay_40" />
+                                                                                                            </Sequence>
+                                                                                                          </Transition.Trigger>
+                                                                                                          <Transition.To>
+                                                                                                            <State x:Name="__ReferenceID8" DisplayName="FinalState" sap2010:WorkflowViewState.IdRef="State_67" IsFinal="True">
+                                                                                                              <State.Entry>
+                                                                                                                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_185">
+                                                                                                                  <vw:HandleOutputFunction Activate="False" sap2010:WorkflowViewState.IdRef="HandleOutputFunction_76" Individual="[ind]" OutFunctions="[{outFunc}]" />
+                                                                                                                  <vw:DigInMessages Action="Disable" DigInputs="[{poke1, poke2}]" sap2010:WorkflowViewState.IdRef="DigInMessages_48" />
+                                                                                                                </Sequence>
+                                                                                                              </State.Entry>
+                                                                                                            </State>
+                                                                                                          </Transition.To>
+                                                                                                        </Transition>
+                                                                                                      </State.Transitions>
+                                                                                                      <State.Variables>
+                                                                                                        <Variable x:TypeArguments="x:TimeSpan" Name="timeToEnd" />
+                                                                                                      </State.Variables>
+                                                                                                    </State>
+                                                                                                  </Transition.To>
+                                                                                                </Transition>
+                                                                                              </State.Transitions>
+                                                                                            </State>
+                                                                                          </StateMachine.InitialState>
+                                                                                          <x:Reference>__ReferenceID6</x:Reference>
+                                                                                          <x:Reference>__ReferenceID5</x:Reference>
+                                                                                          <x:Reference>__ReferenceID7</x:Reference>
+                                                                                          <x:Reference>__ReferenceID8</x:Reference>
+                                                                                          <StateMachine.Variables>
+                                                                                            <Variable x:TypeArguments="vu:DigitalIn" Name="poke" />
+                                                                                            <Variable x:TypeArguments="vmr:ConstantOutputFunction" Name="outFunc" />
+                                                                                            <Variable x:TypeArguments="vu:TransponderUnit" Name="reader" />
+                                                                                            <Variable x:TypeArguments="vmr:RfidConditionModule" Name="condMod" />
+                                                                                          </StateMachine.Variables>
+                                                                                        </StateMachine>
+                                                                                        <FlowStep.Next>
+                                                                                          <FlowDecision x:Name="__ReferenceID33" Condition="[endRewTime &gt;= endBlockTime]" sap2010:WorkflowViewState.IdRef="FlowDecision_6" True="{x:Reference __ReferenceID0}" False="{x:Reference __ReferenceID9}" />
+                                                                                        </FlowStep.Next>
+                                                                                      </FlowStep>
+                                                                                    </FlowStep.Next>
+                                                                                  </FlowStep>
+                                                                                </FlowStep.Next>
+                                                                              </FlowStep>
+                                                                            </FlowStep.Next>
+                                                                          </FlowStep>
+                                                                        </FlowDecision.False>
+                                                                      </FlowDecision>
+                                                                    </FlowStep.Next>
+                                                                  </FlowStep>
+                                                                </FlowStep.Next>
+                                                              </FlowStep>
+                                                            </FlowStep.Next>
+                                                          </FlowStep>
+                                                        </FlowStep.Next>
+                                                      </FlowStep>
+                                                    </FlowStep.Next>
+                                                  </FlowStep>
+                                                </FlowStep.Next>
+                                              </FlowStep>
+                                            </FlowDecision.False>
+                                          </FlowDecision>
+                                        </FlowStep.Next>
+                                      </FlowStep>
+                                    </FlowStep.Next>
+                                  </FlowStep>
+                                </Flowchart.StartNode>
+                                <x:Reference>__ReferenceID10</x:Reference>
+                                <x:Reference>__ReferenceID0</x:Reference>
+                                <x:Reference>__ReferenceID11</x:Reference>
+                                <x:Reference>__ReferenceID12</x:Reference>
+                                <x:Reference>__ReferenceID13</x:Reference>
+                                <x:Reference>__ReferenceID14</x:Reference>
+                                <x:Reference>__ReferenceID15</x:Reference>
+                                <x:Reference>__ReferenceID16</x:Reference>
+                                <x:Reference>__ReferenceID17</x:Reference>
+                                <x:Reference>__ReferenceID18</x:Reference>
+                                <x:Reference>__ReferenceID19</x:Reference>
+                                <x:Reference>__ReferenceID20</x:Reference>
+                                <x:Reference>__ReferenceID21</x:Reference>
+                                <x:Reference>__ReferenceID22</x:Reference>
+                                <x:Reference>__ReferenceID9</x:Reference>
+                                <x:Reference>__ReferenceID23</x:Reference>
+                                <x:Reference>__ReferenceID24</x:Reference>
+                                <x:Reference>__ReferenceID25</x:Reference>
+                                <x:Reference>__ReferenceID26</x:Reference>
+                                <x:Reference>__ReferenceID27</x:Reference>
+                                <x:Reference>__ReferenceID28</x:Reference>
+                                <x:Reference>__ReferenceID29</x:Reference>
+                                <x:Reference>__ReferenceID30</x:Reference>
+                                <x:Reference>__ReferenceID31</x:Reference>
+                                <x:Reference>__ReferenceID32</x:Reference>
+                                <x:Reference>__ReferenceID33</x:Reference>
+                                <x:Reference>__ReferenceID34</x:Reference>
+                                <x:Reference>__ReferenceID35</x:Reference>
+                              </Flowchart>
+                            </Parallel>
+                            <vw:SetVisitMessage CondMod="[{mod1, mod2}]" sap2010:WorkflowViewState.IdRef="SetVisitMessage_3" RemoveOnEnd="False">
+                              <vw:SetVisitMessage.Message>
+                                <InArgument x:TypeArguments="x:String">
+                                  <Literal x:TypeArguments="x:String" Value="" />
+                                </InArgument>
+                              </vw:SetVisitMessage.Message>
+                            </vw:SetVisitMessage>
+                            <vw:DigInMessages Action="Disable" DigInputs="[{poke1, poke2}]" sap2010:WorkflowViewState.IdRef="DigInMessages_28" />
+                            <vw:HandleOutputFunction Activate="False" sap2010:WorkflowViewState.IdRef="HandleOutputFunction_30" Individual="[ind]" OutFunctions="[{out1, out2}]" />
+                            <vw:DigInMessages Action="Disable" DigInputs="[{poke1, poke2}]" sap2010:WorkflowViewState.IdRef="DigInMessages_29" />
+                            <vw:LogMessage MsgVal1="{x:Null}" MsgVal2="{x:Null}" MsgVal3="{x:Null}" sap2010:WorkflowViewState.IdRef="LogMessage_3" Individual="[ind]" Message="end exp" />
+                            <vw:MoveServoMotor Position="{x:Null}" sap2010:WorkflowViewState.IdRef="MoveServoMotor_55" Motors="[{door1, door2}]" Open="False" />
+                          </Sequence>
+                        </State.Entry>
+                        <State.Transitions>
+                          <Transition DisplayName="" sap2010:WorkflowViewState.IdRef="Transition_12">
+                            <Transition.To>
+                              <State x:Name="__ReferenceID36" DisplayName="FinalState" sap2010:WorkflowViewState.IdRef="State_9" IsFinal="True" />
+                            </Transition.To>
+                          </Transition>
+                        </State.Transitions>
+                      </State>
+                    </Transition.To>
+                  </Transition>
+                </State.Transitions>
+              </State>
+            </Transition.To>
+          </Transition>
+          <Transition DisplayName="" sap2010:WorkflowViewState.IdRef="Transition_93" To="{x:Reference __ReferenceID36}" Condition="[not canStart]" />
+        </State.Transitions>
+      </State>
+    </StateMachine.InitialState>
+    <x:Reference>__ReferenceID37</x:Reference>
+    <x:Reference>__ReferenceID38</x:Reference>
+    <x:Reference>__ReferenceID36</x:Reference>
+    <x:Reference>__ReferenceID39</x:Reference>
+    <StateMachine.Variables>
+      <Variable x:TypeArguments="x:TimeSpan" Name="runTime" />
+      <Variable x:TypeArguments="x:TimeSpan" Name="startOffset" />
+      <Variable x:TypeArguments="x:Int32" Default="-1" Name="revBlockNbr" />
+      <Variable x:TypeArguments="x:Boolean" Name="canStart" />
+      <Variable x:TypeArguments="x:Boolean" Default="True" Name="door1Closed" />
+      <Variable x:TypeArguments="x:Boolean" Default="True" Name="door2Closed" />
+    </StateMachine.Variables>
+    <sads:DebugSymbol.Symbol>dy9DOlxVc2Vyc1xhc2NoYXR6XERlc2t0b3BcU2FtXHRpbWluZ1x0aW1pbmcueGFtbKADZQOpCBICAQGjCDOjCDcDAfkEpQg1pQg7AwH4BKYINaYIOwMB9wSIAQ+VCBcDAcwErAEXkQgfAgEjjQgfjQiTAQIBIWcHmggPAgECigETpAEeAwHRBKkBF6kBYwMBzgSuARuICCYCASZpC4MBFgIBCYYBYIYBbAIBBpgIgwGYCJMBAgEEiwEViwGNAQMB8QSMARWMAawBAwHqBI0BFZQBHgMB5gSVARWgARoDAeAEoQEVoQHIAQMB2gSiARWiAZkBAwHWBKMBFaMBigEDAdIEqQEnqQE2AwHPBK8BHbYBJgMByAS3AR3MASIDAbwEzQEdzQHJAQMBtgTOAR37BygCAUL8Bx2CCDICAT6DCB2DCJIBAgE6hAgdhAi0AQIBM4UIHYUIkgECAS+GCB2GCLsBAgErhwgdhwihAQIBJ2oNggESAgEKiwF6iwGKAQMB9ASLAWqLAXEDAfIEjAGEAYwBiwEDAe8EjAE3jAE+AwHuBIwBmQGMAakBAwHrBJIBQpIBZAMB6QSPAUOPAVADAecElQEjlQFFAwHhBJcBGZ4BIgMB4gShAasBoQHFAQMB3gShAZQBoQGiAQMB3QShAYQBoQGLAQMB2wSiAXeiAYkBAwHXBKMBQqMBVAMB0wS0AUq0AWoDAcsEsQFLsQFUAwHJBLcBK7cBSQMBvQS5ASHKASwDAb4EzQGwAc0BxgEDAboEzQGcAc0BpwEDAbkEzQGMAc0BkwEDAbcEzwEfzwF+AwGzBNABH/oHKwIBRM4BaM4BbgIBQ/wHOfwHSQIBQf8HI/8HUgIBQPwHigH8B5EBAgE/gwhKgwhcAgE7hAiMAYQIkwECATiECD+ECEYCATeECKEBhAixAQIBNIUISoUIXAIBMIYIrwGGCLgBAgEuhgifAYYIpgECASyHCH+HCJEBAgEoahtqhQICAQtsEXMaAgEddhGAARwCARScAUacAV8DAeUEmQFHmQFUAwHjBLoBI8EBLAMBwwTCASPJASwDAb8EzwFGzwFRAwG0BNwBJeMBLgMBrgTmASnmAd8BAwGoBOgBXOgBiQEDAaUE8AEx9wE6AwGhBPoBNYECPgMBmgSEAjmLAkIDAZQEjgI9lQJGAwGOBJgCQZgC7wEDAYgEmwJFsAJQAwH1A7ICeLICnwEDAfIDtAVNtAXxAQMB7gO3BVHMBVwDAd0DzwVV7gVgAwHGA/EFWb4HaAMBugLAB4wBwAetAQMBtwK1Ak3WAlgDAZ8C2AKAAdgCogEDAZwCggNVggP7AQMBmAKFA1maA2QDAY0CnQNdnQOsAQMBigKgA2G/A2wDAfMBwgNlyQNuAwHuAcwDacwDsQIDAecBzwNtnAV8AgFb2wJV2wKAAgIBV94CWfMCZAIBTPYCXfYCrAECAUnrATHrAeABAgFFcT1xQQIBIG4+bkgCAR53E34cAgEZfxN/yAECARW/AVC/AWQDAcYEvAFRvAFaAwHEBMcBUMcBcAMBwgTEAVHEAVoDAcAE4QFP4QFgAwGxBN4BUN4BXQMBrwTmAcIB5gHcAQMBrATmAagB5gG5AQMBqwTmAZgB5gGfAQMBqQT1AV71AWwDAaQE8gFf8gFvAwGiBP8BYv8BnQEDAZ0E/AFj/AFxAwGbBIkCY4kCfgMBlwSGAmSGAm4DAZUEkwJnkwKGAQMBkQSQAmiQAnYDAY8EmALVAZgC7AEDAYwEmALBAZgCzAEDAYsEmAKxAZgCuAEDAYkEnAJHowJQAwH/A6QCR68CTAMB9gO0BeABtAXuAQMB8QO0BdABtAXXAQMB7wO4BVO/BVwDAecDwAVTywVYAwHeA9AFV94FXAMB0gPfBVftBVwDAccD8wVdsgdlAwGIA8cGZa4HbQMB8gLRBm2CB3UDAcgCoAdtpwd1AwG7ArYCT9UCWgMBoAKCA+gBggP4AQMBmwKCA9gBggPfAQMBmQKGA1uNA2QDAZQCjgNbmQNgAwGOAp0DbZ0DfgMBiwKhA2OvA2gDAf8BsANjvgNoAwH0AccDkgHHA6ABAwHxAcQDkwHEA58BAwHvAcwDgALMA64CAwHrAcwD6QHMA/cBAwHqAcwD2QHMA+ABAwHoAdEDcZAFeQMBqQGlBHmMBYEBAwGTAa8EgQHgBIkBAgFp/gSBAYUFiQECAVzbAugB2wL9AQIBWtsC2AHbAt8BAgFY3wJb5gJkAgFT5wJb8gJgAgFN9gJt9gJ+AgFK6wHDAesB3QECAUjrAbMB6wG6AQIBRnw/fEQCARx5QHlKAgEaf6UBf8UBAgEYf5UBf5wBAgEWoQJ0oQLfAQMBggSeAnWeAoIBAwGABKQCVaQCdgMB9wOmAkutAlQDAfoDvQWAAb0FvAEDAeoDugWBAboFjQEDAegDwAVhwAWBAQMB3wPCBVfJBWADAeID0AVl0AV0AwHTA9IFW9wFZgMB1QPfBWXfBXQDAcgD4QVb6wVmAwHKA/UFYcIGZgMBiwPJBmnJBtYBAwGFA84Gbc4GlQIDAYIDhwdtnQd4AwH0AtMGcfMGfAMBzQL4BnX4BpsCAwHKAqIHcaUHfAMBvQK3AlHFAlYDAawCxgJR1AJWAwGhAosDiAGLA6wBAwGXAogDiQGIA5gBAwGVAo4DaY4DjQEDAY8CkANflwNoAwGQAqEDcaEDgAEDAYACowNnrQNyAwGCArADcbADgAEDAfUBsgNnvANyAwH3AdMDdaAEegMBrAGnBH2nBOoBAwGmAawEgQGsBKkCAwGjAeUEgQH7BIwBAwGVAbEEhQHRBJABAgFu1gSJAdYErwICAWuABYUBgwWQAQIBXuQCiAHkAq0BAgFW4QKJAeECmAECAVTnAmnnAo0BAgFO6QJf8AJoAgFPqwJ4qwKGAQMB/QOoAnmoAoYBAwH7A8cFhAHHBZIBAwHlA8QFhQHEBZEBAwHjA9MFXdMF2QEDAdoD1AVd2wVmAwHWA+IFXeIF2QEDAc8D4wVd6gVmAwHLA/UFb/UFgwEDAYwD9wVlmgZwAwGqA50GZcAGcAMBjgPJBpYByQagAQMBhgPOBoYCzgaSAgMBgwOIB2+PB3gDAf4CkAdvmwd0AwH4ApwHb5wHugEDAfUC1wZz3gZ8AwHuAt8Gc+YGfAMB6gLnBnPuBnwDAeYC7wZz7wa6AgMB3ALwBnPwBoMCAwHXAvEGc/EGhgIDAdEC8gZz8gbfAQMBzgL4BowC+AaYAgMBywKjB3OjB4cCAwHCAqQHc6QH6AEDAb4CtwJftwJyAwGtArkCVcMCYAMBrwLGAl/GAnIDAaICyAJV0gJgAwGkApUDjAGVA5QBAwGTApIDjQGSA5wBAwGRAqQDaaQD5QEDAYcCpQNprANyAwGDArMDabMD5QEDAfwBtANpuwNyAwH4AdMDgwHTA5cBAwGtAdUDefgDhAEDAcsB+wN5ngSEAQMBrwGnBKoBpwS0AQMBpwGsBJoCrASmAgMBpAHmBIMB7QSMAQMBnwHuBIMB+QSIAQMBmQH6BIMB+gTOAQMBlgG1BIcBvASQAQMBjwG9BIcBxASQAQMBiwHFBIcBzASQAQMBhwHNBIcBzQTOAgIBfc4EhwHOBJcCAgF4zwSHAc8EmgICAXLQBIcB0ATzAQIBb9YEoALWBKwCAgFsgQWHAYEFmwICAWOCBYcBggX8AQIBX+4CjAHuApQBAgFS6wKNAesCnAECAVDTBb8B0wXKAQMB2wPZBYkB2QWOAQMB2QPWBYoB1gWXAQMB1wPiBb8B4gXKAQMB0APoBYkB6AWOAQMBzgPlBYoB5QWXAQMBzAP4BWf/BXADAcEDgAZnhwZwAwG8A4gGZ48GcAMBtwOQBmeXBnADAbIDmAZnmAbsAQMBrgOZBmeZBtQBAwGrA54GZ6UGcAMBpQOmBmetBnADAaADrgZntQZwAwGbA7YGZ70GcAMBlgO+Bme+BuwBAwGSA78GZ78G1AEDAY8DjQecAY0HvwEDAYEDigedAYoHqAEDAf8CkAd9kAedAQMB+QKSB3OZB3wDAfoCnAd/nAeMAQMB9gLcBp0B3AbuAQMB8QLZBp4B2QakAQMB7wLkBp0B5Ab5AQMB7QLhBp4B4QaoAQMB6wLsBp0B7AanAQMB6ALpBp4B6Qa1AQMB5wLvBoAC7waXAgMB5ALvBqAC7wa3AgMB4gLvBuQB7wb3AQMB4ALvBs0B7wbbAQMB3wLvBr0B7wbEAQMB3QLwBo8B8AacAQMB2wLwBtoB8AbtAQMB2QLwBvoB8AaAAgMB2ALxBuEB8QboAQMB1QLxBpUB8QabAQMB1ALxBvYB8QaDAgMB0gLyBp8B8gapAQMBzwKjB+IBowfpAQMBxgKjB5UBowecAQMBxQKjB/cBoweEAgMBwwKkB6ABpAeyAQMBvwK6Ale6AtQBAwG0ArsCV8ICYAMBsALJAlfJAtQBAwGpAsoCV9ECYAMBpQKkA8sBpAPWAQMBiAKqA5UBqgOaAQMBhgKnA5YBpwOjAQMBhAKzA8sBswPWAQMB/QG5A5UBuQOaAQMB+wG2A5YBtgOjAQMB+QHWA3vdA4QBAwHiAd4De+UDhAEDAd0B5gN77QOEAQMB2AHuA3v1A4QBAwHTAfYDe/YDgAIDAc8B9wN79wPoAQMBzAH8A3uDBIQBAwHGAYQEe4sEhAEDAcEBjAR7kwSEAQMBvAGUBHubBIQBAwG3AZwEe5wEgAIDAbMBnQR7nQToAQMBsAHrBLAB6wTTAQMBogHoBLEB6AS8AQMBoAHuBJEB7gSxAQMBmgHwBIcB9wSQAQMBmwH6BJMB+gSgAQMBlwG6BLEBugSCAgMBkgG3BLIBtwS4AQMBkAHCBLEBwgSNAgMBjgG/BLIBvwS8AQMBjAHKBLEBygS7AQMBiQHHBLIBxwTJAQMBiAHNBJQCzQSrAgMBhQHNBLQCzQTLAgMBgwHNBPgBzQSLAgMBgQHNBOEBzQTvAQMBgAHNBNEBzQTYAQIBfs4EowHOBLABAgF8zgTuAc4EgQICAXrOBI4CzgSUAgIBec8E9QHPBPwBAgF2zwSpAc8ErwECAXXPBIoCzwSXAgIBc9AEswHQBL0BAgFwgQX2AYEF/QECAWeBBakBgQWwAQIBZoEFiwKBBZgCAgFkggW0AYIFxgECAWD9BaEB/QWnAQMBxAP6BaIB+gWrAQMBwgOFBqQBhQaqAQMBvwOCBqUBggauAQMBvQONBpwBjQalAQMBugOKBp0BigalAQMBuAOVBpYBlQadAQMBtQOSBpcBkgadAQMBswOYBoMBmAaNAQMBsQOYBssBmAbVAQMBsAOYBuIBmAbpAQMBrwOZBpMBmQaeAQMBrAOjBqEBowanAQMBqAOgBqIBoAarAQMBpgOrBqQBqwaqAQMBowOoBqUBqAauAQMBoQOzBpwBswalAQMBngOwBp0BsAalAQMBnAO7BpYBuwadAQMBmQO4BpcBuAadAQMBlwO+BoMBvgaNAQMBlQO+BssBvgbVAQMBlAO+BuIBvgbpAQMBkwO/BpMBvwaeAQMBkAOXB6ABlweoAQMB/QKUB6EBlAesAQMB+wK6ArkBugLEAQMBtQLAAoMBwAKHAQMBswK9AoQBvQKRAQMBsQLJArkByQLEAQMBqgLPAoMBzwKHAQMBqALMAoQBzAKRAQMBpgLbA7UB2wO7AQMB5QHYA7YB2AO/AQMB4wHjA7gB4wO+AQMB4AHgA7kB4APCAQMB3gHrA7AB6wO5AQMB2wHoA7EB6AO5AQMB2QHzA6oB8wOxAQMB1gHwA6sB8AOxAQMB1AH2A5cB9gOhAQMB0gH2A98B9gPpAQMB0QH2A/YB9gP9AQMB0AH3A6cB9wOyAQMBzQGBBLUBgQS7AQMByQH+A7YB/gO/AQMBxwGJBLgBiQS+AQMBxAGGBLkBhgTCAQMBwgGRBLABkQS5AQMBvwGOBLEBjgS5AQMBvQGZBKoBmQSxAQMBugGWBKsBlgSxAQMBuAGcBJcBnAShAQMBtgGcBN8BnATpAQMBtQGcBPYBnAT9AQMBtAGdBKcBnQSyAQMBsQH1BLQB9QS8AQMBngHyBLUB8gTAAQMBnAE=</sads:DebugSymbol.Symbol>
+  </StateMachine>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="Assign_86" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_87" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="LogMessage_4" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_79" sap:VirtualizedContainerService.HintSize="264,246">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_4" sap:VirtualizedContainerService.HintSize="531,398" />
+      <sap2010:ViewStateData Id="Sequence_80" sap:VirtualizedContainerService.HintSize="553,522">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="SetCurrentAnimal_1" sap:VirtualizedContainerService.HintSize="464,22" />
+      <sap2010:ViewStateData Id="HandleOutputFunction_40" sap:VirtualizedContainerService.HintSize="464,22" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="464,60" />
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="464,208" />
+      <sap2010:ViewStateData Id="LogMessage_1" sap:VirtualizedContainerService.HintSize="464,22" />
+      <sap2010:ViewStateData Id="MoveServoMotor_45" sap:VirtualizedContainerService.HintSize="464,22" />
+      <sap2010:ViewStateData Id="DigInMessages_27" sap:VirtualizedContainerService.HintSize="464,22" />
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="486,742">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Delay_1" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="554,60" />
+      <sap2010:ViewStateData Id="Assign_4" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_5" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Sequence_5" sap:VirtualizedContainerService.HintSize="264,284">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_2" sap:VirtualizedContainerService.HintSize="554,51">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogMessage_2" sap:VirtualizedContainerService.HintSize="554,22" />
+      <sap2010:ViewStateData Id="Delay_2" sap:VirtualizedContainerService.HintSize="200,51" />
+      <sap2010:ViewStateData Id="Assign_90" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="LogMessage_9" sap:VirtualizedContainerService.HintSize="200,22">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogMessage_5" sap:VirtualizedContainerService.HintSize="200,22">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_3">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">83,362</av:Point>
+            <av:Size x:Key="ShapeSize">200,22</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_88" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_258" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_101" sap:VirtualizedContainerService.HintSize="242,60">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_251" sap:VirtualizedContainerService.HintSize="242,60">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogMessage_25" sap:VirtualizedContainerService.HintSize="200,22">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_300" sap:VirtualizedContainerService.HintSize="464,60">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_301" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="If_55" sap:VirtualizedContainerService.HintSize="464,208">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_186" sap:VirtualizedContainerService.HintSize="200,51">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="MoveServoMotor_60" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Assign_262" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Sequence_164" sap:VirtualizedContainerService.HintSize="264,246">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_42" sap:VirtualizedContainerService.HintSize="464,394">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="MoveServoMotor_61" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Assign_263" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Sequence_165" sap:VirtualizedContainerService.HintSize="264,246">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_43" sap:VirtualizedContainerService.HintSize="464,394">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_166" sap:VirtualizedContainerService.HintSize="486,952">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_167" sap:VirtualizedContainerService.HintSize="200,51">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogMessage_26" sap:VirtualizedContainerService.HintSize="200,22">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_304" sap:VirtualizedContainerService.HintSize="464,60" />
+      <sap2010:ViewStateData Id="Assign_305" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="If_57" sap:VirtualizedContainerService.HintSize="464,208" />
+      <sap2010:ViewStateData Id="Sequence_188" sap:VirtualizedContainerService.HintSize="200,51">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Delay_37" sap:VirtualizedContainerService.HintSize="200,22">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_39">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">80,1401</av:Point>
+            <av:Size x:Key="ShapeSize">200,22</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">80,1412 50,1412 50,137.5 239,137.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_57">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">80,1320</av:Point>
+            <av:Size x:Key="ShapeSize">200,51</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">180,1371 180,1401</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_41">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">80,1269</av:Point>
+            <av:Size x:Key="ShapeSize">200,22</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">180,1291 180,1320</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogMessage_27" sap:VirtualizedContainerService.HintSize="200,22">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_306" sap:VirtualizedContainerService.HintSize="464,60" />
+      <sap2010:ViewStateData Id="Assign_307" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="If_58" sap:VirtualizedContainerService.HintSize="464,208" />
+      <sap2010:ViewStateData Id="Sequence_189" sap:VirtualizedContainerService.HintSize="200,51">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Delay_38" sap:VirtualizedContainerService.HintSize="200,22">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="MoveServoMotor_64" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Assign_266" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Sequence_171" sap:VirtualizedContainerService.HintSize="264,246">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_46" sap:VirtualizedContainerService.HintSize="464,394">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="MoveServoMotor_65" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Assign_267" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Sequence_172" sap:VirtualizedContainerService.HintSize="264,246">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_47" sap:VirtualizedContainerService.HintSize="464,394">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_155" sap:VirtualizedContainerService.HintSize="200,51">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_268" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="LogMessage_28" sap:VirtualizedContainerService.HintSize="200,22">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_269" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_270" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_271" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_272" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="SetVisitMessage_10" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="DigInMessages_39" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_173" sap:VirtualizedContainerService.HintSize="264,608">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_273" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_274" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_275" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_276" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="SetVisitMessage_11" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="DigInMessages_40" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_174" sap:VirtualizedContainerService.HintSize="264,608">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_48" sap:VirtualizedContainerService.HintSize="553,756" />
+      <sap2010:ViewStateData Id="DigInMessages_41" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="WaitForTransponder_3" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Assign_277" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_278" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_279" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="LogMessage_29" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="SetVisitMessage_12" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="HandleOutputFunction_73" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="DigInMessages_42" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_175" sap:VirtualizedContainerService.HintSize="264,632">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForTransponder_4" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_98" sap:VirtualizedContainerService.HintSize="430,505">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">357,373.05 387,373.05 387,262.05 357,262.05</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">40</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">40</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_62" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">243,339.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_99" sap:VirtualizedContainerService.HintSize="430,505">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">300,289.5 300,339.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">39</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">38</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_280" sap:VirtualizedContainerService.HintSize="464,60" />
+      <sap2010:ViewStateData Id="Assign_281" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="If_49" sap:VirtualizedContainerService.HintSize="464,208" />
+      <sap2010:ViewStateData Id="Delay_39" sap:VirtualizedContainerService.HintSize="464,22" />
+      <sap2010:ViewStateData Id="Sequence_176" sap:VirtualizedContainerService.HintSize="200,51">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="HandleOutputFunction_74" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="DigInMessages_43" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Sequence_177" sap:VirtualizedContainerService.HintSize="222,208">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_63" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">40,342.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_100" sap:VirtualizedContainerService.HintSize="430,505">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">243,262.05 97,262.05 97,342.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">41</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">38</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_64" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">243,228.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_101">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">300,178.5 300,228.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">39</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">38</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_65" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">243,117.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="StateMachine_10" sap:VirtualizedContainerService.HintSize="200,51">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
+            <x:Double x:Key="StateContainerWidth">600</x:Double>
+            <x:Double x:Key="StateContainerHeight">600</x:Double>
+            <av:PointCollection x:Key="ConnectorLocation">300,77.5 300,117.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_46">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">450,1674</av:Point>
+            <av:Size x:Key="ShapeSize">200,51</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">450,1699.5 49.5,1699.5 49.5,137.5 239,137.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_47">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">450,1624</av:Point>
+            <av:Size x:Key="ShapeSize">200,22</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">550,1646 550,1674</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_48">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">429,1534</av:Point>
+            <av:Size x:Key="ShapeSize">242,60</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">550,1594 550,1624</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_32">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">450,1453</av:Point>
+            <av:Size x:Key="ShapeSize">200,51</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">550,1504 550,1534</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_43">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">450,1401</av:Point>
+            <av:Size x:Key="ShapeSize">200,22</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">550,1423 550,1453</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_58">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">450,1324.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,51</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">550,1375.5 550,1401</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_44">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">450,1269</av:Point>
+            <av:Size x:Key="ShapeSize">200,22</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">550,1291 550,1324.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowDecision_5" sap:VirtualizedContainerService.HintSize="70,87">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <av:Point x:Key="ShapeLocation">308.79,1170</av:Point>
+            <av:Size x:Key="ShapeSize">70,87</av:Size>
+            <av:PointCollection x:Key="TrueConnector">308.79,1213.5 180,1213.5 180,1269</av:PointCollection>
+            <av:PointCollection x:Key="FalseConnector">378.79,1213.5 550,1213.5 550,1269</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_45">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">243.79,1010</av:Point>
+            <av:Size x:Key="ShapeSize">200,51</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">343.79,1061 343.79,1170</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogMessage_30" sap:VirtualizedContainerService.HintSize="200,22">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_302" sap:VirtualizedContainerService.HintSize="464,60" />
+      <sap2010:ViewStateData Id="Assign_303" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="If_56" sap:VirtualizedContainerService.HintSize="464,208">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_187" sap:VirtualizedContainerService.HintSize="200,51">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="MoveServoMotor_66" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Assign_284" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Sequence_178" sap:VirtualizedContainerService.HintSize="264,246">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_51" sap:VirtualizedContainerService.HintSize="464,394">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="MoveServoMotor_67" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Assign_285" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Sequence_179" sap:VirtualizedContainerService.HintSize="264,246">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_52" sap:VirtualizedContainerService.HintSize="464,394">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_180" sap:VirtualizedContainerService.HintSize="200,51">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_286" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_287" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_288" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_289" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="SetVisitMessage_13" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="DigInMessages_44" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_181" sap:VirtualizedContainerService.HintSize="264,608">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_290" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_291" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_292" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_293" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="SetVisitMessage_14" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="DigInMessages_45" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_182" sap:VirtualizedContainerService.HintSize="264,608">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_53" sap:VirtualizedContainerService.HintSize="553,756" />
+      <sap2010:ViewStateData Id="DigInMessages_46" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="WaitForTransponder_5" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Assign_294" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_295" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Assign_296" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="LogMessage_31" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="SetVisitMessage_15" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="HandleOutputFunction_75" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="DigInMessages_47" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_183" sap:VirtualizedContainerService.HintSize="264,632">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForTransponder_6" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_102" sap:VirtualizedContainerService.HintSize="430,505">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">357,373.05 387,373.05 387,262.05 357,262.05</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">40</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">40</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_66" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">243,339.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_103" sap:VirtualizedContainerService.HintSize="430,505">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">300,289.5 300,339.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">39</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">38</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_297" sap:VirtualizedContainerService.HintSize="464,60" />
+      <sap2010:ViewStateData Id="Assign_298" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="If_54" sap:VirtualizedContainerService.HintSize="464,208" />
+      <sap2010:ViewStateData Id="Delay_40" sap:VirtualizedContainerService.HintSize="464,22" />
+      <sap2010:ViewStateData Id="Sequence_184" sap:VirtualizedContainerService.HintSize="486,494">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="HandleOutputFunction_76" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="DigInMessages_48" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Sequence_185" sap:VirtualizedContainerService.HintSize="222,208">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_67" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">40,342.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_104" sap:VirtualizedContainerService.HintSize="528,939">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">243,262.05 97,262.05 97,342.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">41</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">38</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_68" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">243,228.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_105">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">300,178.5 300,228.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">39</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">38</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_69" sap:VirtualizedContainerService.HintSize="579,1118">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">243,117.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="StateMachine_11" sap:VirtualizedContainerService.HintSize="200,51">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
+            <x:Double x:Key="StateContainerWidth">600</x:Double>
+            <x:Double x:Key="StateContainerHeight">600</x:Double>
+            <av:PointCollection x:Key="ConnectorLocation">300,77.5 300,117.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowDecision_6" sap:VirtualizedContainerService.HintSize="70,87">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <av:Point x:Key="ShapeLocation">905,1292</av:Point>
+            <av:Size x:Key="ShapeSize">70,87</av:Size>
+            <av:PointCollection x:Key="TrueConnector">905,1335.5 790.5,1335.5 790.5,137.5 481,137.5</av:PointCollection>
+            <av:PointCollection x:Key="FalseConnector">975,1335.5 1005,1335.5 1005,1249.08 643.5,1249.08 643.5,1035.5 443.79,1035.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_49">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">840,1191</av:Point>
+            <av:Size x:Key="ShapeSize">200,51</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">940,1242 940,1292</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_50">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">840,1121</av:Point>
+            <av:Size x:Key="ShapeSize">200,51</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">940,1172 940,1191</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_56">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">840,1050</av:Point>
+            <av:Size x:Key="ShapeSize">200,51</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">940,1101 940,1121</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_53">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">840,1008</av:Point>
+            <av:Size x:Key="ShapeSize">200,22</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">940,1030 940,1050</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowDecision_3" sap:VirtualizedContainerService.HintSize="70,87">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <av:Point x:Key="ShapeLocation">605,926.5</av:Point>
+            <av:Size x:Key="ShapeSize">70,87</av:Size>
+            <av:PointCollection x:Key="TrueConnector">605,970 343.79,970 343.79,1010</av:PointCollection>
+            <av:PointCollection x:Key="FalseConnector">675,970 940,970 940,1008</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_55">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">540,724.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,51</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">640,775.5 640,926.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_37">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">540,679</av:Point>
+            <av:Size x:Key="ShapeSize">200,22</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">640,701 640,724.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_33">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">519,600</av:Point>
+            <av:Size x:Key="ShapeSize">242,60</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">640,660 640,679</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_11">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">519,520</av:Point>
+            <av:Size x:Key="ShapeSize">242,60</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">640,580 640,600</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_38">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">519,440</av:Point>
+            <av:Size x:Key="ShapeSize">242,60</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">640,500 640,520</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_2">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">519,350</av:Point>
+            <av:Size x:Key="ShapeSize">242,60</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">640,410 640,440</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowDecision_1" sap:VirtualizedContainerService.HintSize="70,87">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <av:Point x:Key="ShapeLocation">323,259.5</av:Point>
+            <av:Size x:Key="ShapeSize">70,87</av:Size>
+            <av:PointCollection x:Key="TrueConnector">323,303 183,303 183,362</av:PointCollection>
+            <av:PointCollection x:Key="FalseConnector">393,303 640,303 640,350</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_17">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">260,197.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,22</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">360,219.5 360,249.5 358,249.5 358,259.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_4">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">239,107.5</av:Point>
+            <av:Size x:Key="ShapeSize">242,60</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">360,167.5 360,197.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="1102,1798">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <av:Point x:Key="ShapeLocation">330,2.5</av:Point>
+            <av:Size x:Key="ShapeSize">60,75</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">360,77.5 360,107.5</av:PointCollection>
+            <x:Double x:Key="Width">1088</x:Double>
+            <x:Double x:Key="Height">1762</x:Double>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Parallel_1" sap:VirtualizedContainerService.HintSize="554,97" />
+      <sap2010:ViewStateData Id="SetVisitMessage_3" sap:VirtualizedContainerService.HintSize="554,22" />
+      <sap2010:ViewStateData Id="DigInMessages_28" sap:VirtualizedContainerService.HintSize="554,22" />
+      <sap2010:ViewStateData Id="HandleOutputFunction_30" sap:VirtualizedContainerService.HintSize="554,22" />
+      <sap2010:ViewStateData Id="DigInMessages_29" sap:VirtualizedContainerService.HintSize="554,22" />
+      <sap2010:ViewStateData Id="LogMessage_3" sap:VirtualizedContainerService.HintSize="554,22" />
+      <sap2010:ViewStateData Id="MoveServoMotor_55" sap:VirtualizedContainerService.HintSize="554,22" />
+      <sap2010:ViewStateData Id="Sequence_6" sap:VirtualizedContainerService.HintSize="576,846">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_9" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">243,453.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_12">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">300,403.5 300,453.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">39</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">38</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_5" sap:VirtualizedContainerService.HintSize="602,1208">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">243,342.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_7" sap:VirtualizedContainerService.HintSize="430,505">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Int32 x:Key="SrcConnectionPointIndex">39</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">38</x:Int32>
+            <av:PointCollection x:Key="ConnectorLocation">300,293.5 300,342.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_4" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">243,232.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_92" sap:VirtualizedContainerService.HintSize="430,796">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Int32 x:Key="SrcConnectionPointIndex">39</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">38</x:Int32>
+            <av:PointCollection x:Key="ConnectorLocation">300,173.5 300,232.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_93">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">300,173.5 300,203.5 213,203.5 213,484 243,484</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">39</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">37</x:Int32>
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_57" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">243,112.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="StateMachine_1" sap:VirtualizedContainerService.HintSize="614,636">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
+            <x:Double x:Key="StateContainerWidth">600</x:Double>
+            <x:Double x:Key="StateContainerHeight">600</x:Double>
+            <av:PointCollection x:Key="ConnectorLocation">300,77.5 300,112.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Activity1_1" sap:VirtualizedContainerService.HintSize="654,716" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

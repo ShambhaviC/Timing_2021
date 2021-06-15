@@ -1,0 +1,114 @@
+---
+title: "Timing"
+always_allow_html: yes
+output:
+  bookdown::html_document2:
+     number_sections: no
+     toc: no
+  bookdown::word_document2:
+    number_sections: no
+    toc: no
+bibliography: srl.bib
+ #csl: animal-cognition.csl
+---
+<style>
+body {
+text-align: justify}
+</style>
+
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center")
+```
+
+```{r Reading in the packages, echo = FALSE, include=FALSE, results= 'hide'}
+# clearing the environment
+rm(list = ls())
+
+# creating a vector of the required packages 
+# packages <- c("rmarkdown", "reshape2", "citr", "shiny", "flextable", "scales", "tidyverse", "lubridate", "ggpubr", "gridExtra",  "Hmisc", "brms", "bayesplot")
+#sapply(packages, library, character.only = TRUE)
+
+# installing the required packages if needed and loading them 
+if (!require(rmarkdown)) 
+install.packages(rmarkdown)
+if (!require(reshape2)) 
+install.packages(reshape2)
+if(!require(rticles))
+install.packages(rticles)
+if (!require(knitr)) 
+install.packages(knitr)
+if (!require(citr)) 
+install.packages(citr)
+if (!require(shiny)) 
+install.packages(shiny)
+if (!require(flextable)) 
+install.packages(flextable)
+if (!require(scales)) 
+install.packages(scales)
+if (!require(tidyverse)) 
+install.packages(tidyverse)
+if (!require(lubridate)) 
+install.packages(lubridate)
+if (!require(ggpubr)) 
+install.packages(ggpubr)
+if (!require(gridExtra)) 
+install.packages(gridExtra)
+if (!require(Hmisc)) 
+install.packages(Hmisc)
+if (!require(brms)) 
+install.packages(brms)
+if (!require(bayesplot)) 
+install.packages(bayesplot)
+
+```
+
+#Introduction - Take 2 
+
+##The big question 
+What do the bats think is happening in an environment that changes in a time-sensitive way? How can we tease apart the possible behavioural strategies? 
+
+## What are the potential strategies? 
+
+* Reinforcement history or reinforcement learning (RL): the bats make more visits to the option that has been more rewarding over several past experiences
+* Win-stay; lose-shift: the bats make more visits to the option that was rewarding only in their last one experience, i.e., they stay when they are rewarded and go to the other option in the 
+* Timing: the bats make more more visits to the option that they estimate is rewarding at that particular point in time 
+
+## An experiment design to answer this question: 
+The basic idea is to have a simple reward schedule that proceeds based on the passage of time, and cut off access to the environment for a short while in such a way that the different potential strategies have different behavioural predictions. 
+
+The design would be as follows. There are two available options, separated by an incomplete partition. The options repeatedly reverse their reward contingencies at regular time intervals, regardless of what the bats do. The environmental state is constant between successive reversals and this is called a reversal block. Within a reversal block, one option remains rewarding, and the bat receives the same volume of reward every time it visits this option. The other option is non-rewarding. In the second half of a reversal block neither option is rewarding for some time, even though both options are accessible to the bats. Thus the first half of the block is the 'rewarding half' and the second half of the block is the 'non-rewarding half'. At the end of the block, the reversal occurs in an unsignalled way: the previously non-rewarding option is rewarding and the previously rewarding option is non-rewarding. These reversals occur repeatedly throughout the night at intervals of 10 minutes, meaning that for 5 minutes per block neither option is rewarding. 
+In some of the reversal blocks 'lockdowns' are imposed. A lockdown is when the environment is inaccessible to the bats, and this will be done by closing the doors in front of the flowers. The time and duration of the lockdowns will be the different experimental conditions. 
+
+## Response variables 
+* The first visit made by the bats after the lockdown is removed is the main point of interest: the different behavioural strategies make different predictions about what proportion of such first visits are made to which option. 
+
+* The number of visits made by the bats to either option during the non-rewarding half. 
+
+* The number of approaches made by the bats to either option during the lockdowns. 
+
+## Predictions 
+Condition 1: The lockdown begins at the start of the non-rewarding half and continues until the start of the next reversal block. 
+
+*RL prediction: the bats will make a large proportion of visits to the option that was rewarding in the last reversal block 
+*WSLS prediction: the bats will make a large proportion of visits to the option that was rewarding in the lat reversal block
+*Timing prediction:  the bats will make a large proportion of visits to the option that NOT rewarding in the last reversal block
+*Random sampling: the bats make 50% of their visits to either option. 
+
+Condition 2: The lockdown begins in the middle of the rewarding half and continues until the start of the next reversal block. 
+
+*RL prediction: the bats will make a proportion of visits to the option that was rewarding in the last reversal block that is larger than 50%, but less than they made in Condition 1.  
+*WSLS prediction: the bats will make a proportion of visits to the option that was rewarding in the last block equal to the proportion in Condition 1. 
+*Timing prediction: the bats will make  large proportion of visits to the option that was NOT rewarding in the last reveral block
+*Random sampling: the bats make 50% of their visits to either option. 
+
+The behaviour of the bats during the non-rewarding phases and the lockdowns will supplement the above analysis. Anticipation of the reversal, through an increasing frequency of visits to the option that non-rewarding in the last reversal block would be strong indication that the bats are using an internal sense of time. 
+
+## Some key points about the experiment design
+
+* The partition between the two flowers is necessary to impose a cost to making the 'wrong' choice, i.e., a choice for the non-rewarding flower, because the bats have to now fly a bigger distance to go from one flower to another. 
+
+* The reversals are time-based and not visit-based see if the animals use an internal sense of time as potential strategy. 
+
+* The rewarding and non-rewarding phases are of equal duration so the bats have to keep track of only 5 minute intervals, potentially making timing an easy strategy. 
+
