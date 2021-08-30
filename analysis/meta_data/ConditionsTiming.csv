@@ -1,0 +1,126 @@
+Day ,IdRFID,IdLabel,Cage,Discard,Stage,Substage,Group 
+1,041768F274,Bat 72,2,1,Training,Training,Strict
+1,04185D008F,Bat 103,3,0,Training,Training,Random
+1,04185D1DE6,Bat 112,4,1,Training,Training,Random
+1,0416D4F855,Bat 5,5,0,Training,Training,Strict
+1,0416D4F741,Bat 106,6,1,Training,Training,Random
+2,041768F274,Bat 72,2,0,Main,Baseline,Strict
+2,0416D4F544,Bat 5,5,0,Main,Baseline,Strict
+3,0416D4EE76,Bat 67,1,0,Training,Training,Random
+3,041768F274,Bat 72,2,0,Main,Baseline,Strict
+3,04185D008F,Bat 63,3,0,Training,Training,Random
+3,0416D4F544,Bat 5,5,0,Main,Baseline,Strict
+3,0416D4D943,Bat 61,6,0,Training,Training,Random
+4,0416D4EE76,Bat 67,1,0,Main,Baseline,Random
+4,041768F274,Bat 72,2,0,Main,Lockdown,Strict
+4,04185D008F,Bat 63,3,0,Main,Baseline,Random
+4,0416D4F544,Bat 5,5,0,Main,Lockdown,Strict
+4,0416D4D943,Bat 61,6,0,Training,Training,Random
+5,0416D4EE76,Bat 67,1,0,Main,Baseline,Random
+5,041768F274,Bat 72,2,0,Main,Lockdown,Strict
+5,04185D008F,Bat 63,3,0,Main,Baseline,Random
+5,0416D4F544,Bat 5,5,0,Main,Lockdown,Strict
+5,0416D4D943,Bat 61,6,0,Main,Baseline,Random
+6,0416D4EE76,Bat 67,1,0,Main,Lockdown,Random
+6,041768F274,Bat 72,2,0,Main,Lockdown,Strict
+6,04185D008F,Bat 63,3,0,Main,Lockdown,Random
+6,0416ECC22D,Bat 101,4,0,Training,Training,Strict
+6,0416D4F544,Bat 5,5,0,Main,Lockdown,Strict
+6,0416D4D943,Bat 61,6,0,Main,Baseline,Random
+7,0416D4EE76,Bat 67,1,0,Main,Lockdown,Random
+7,041768F274,Bat 72,2,0,Main,Baseline reference,Strict
+7,04185D008F,Bat 63,3,0,Main,Lockdown,Random
+7,0416ECC22D,Bat 101,4,0,Main,Baseline,Strict
+7,0416D4F544,Bat 5,5,0,Main,Baseline reference,Strict
+7,0416D4D943,Bat 61,6,0,Main,Lockdown,Random
+8,0416D4EE76,Bat 67,1,0,Main,Lockdown,Random
+8,04185D008F,Bat 63,3,0,Main,Lockdown,Random
+8,0416ECC22D,Bat 101,4,0,Main,Baseline,Strict
+8,0416D4D943,Bat 61,6,0,Main,Lockdown,Random
+9,0416D4EE76,Bat 67,1,0,Main,Baseline reference,Random
+9,041768F274,Bat 22,2,0,Training,Training,Strict
+9,04185D008F,Bat 63,3,0,Main,Baseline reference,Random
+9,0416ECC22D,Bat 101,4,0,Main,Lockdown,Strict
+9,0416D4F544,Bat 33,5,0,Training,Training,Strict
+9,0416D4D943,Bat 61,6,0,Main,Lockdown,Random
+10,041768F274,Bat 22,2,1,Main,Baseline,Strict
+10,0416ECC22D,Bat 101,4,0,Main,Lockdown,Strict
+10,0416D4F544,Bat 33,5,1,Main,Baseline,Strict
+10,0416D4D943,Bat 61,6,0,Main,Baseline reference,Random
+11,041768F274,Bat 22,2,0,Main,Baseline,Strict
+11,04185D008F,Bat 58,3,0,Training,Training,Random
+11,0416ECC22D,Bat 101,4,0,Main,Lockdown,Strict
+11,0416D4F544,Bat 33,5,0,Main,Baseline,Strict
+11,0416D4D943,Bat 94,6,0,Training,Training,Random
+12,0416D4EE76,Bat 35,1,1,Training,Training,Strict
+12,041768F274,Bat 22,2,0,Main,Baseline,Strict
+12,04185D008F,Bat 58,3,0,Main,Baseline,Random
+12,0416ECC22D,Bat 101,4,0,Main,Baseline reference,Strict
+12,0416D4F544,Bat 33,5,0,Main,Baseline,Strict
+12,0416D4D943,Bat 94,6,0,Main,Baseline,Random
+13,0416D4EE76,Bat 35,1,1,Main,Baseline,Strict
+13,041768F274,Bat 22,2,0,Main,Lockdown,Strict
+13,04185D008F,Bat 58,3,0,Main,Baseline,Random
+13,0416D4F544,Bat 33,5,0,Main,Lockdown,Strict
+13,0416D4D943,Bat 94,6,0,Main,Baseline,Random
+14,0416D4EE76,Bat 35,1,1,Main,Baseline,Strict
+14,041768F274,Bat 22,2,0,Main,Lockdown,Strict
+14,04185D008F,Bat 58,3,0,Main,Lockdown,Random
+14,0416D4F544,Bat 33,5,0,Main,Lockdown,Strict
+14,0416D4D943,Bat 94,6,0,Main,Lockdown,Random
+15,041768F274,Bat 22,2,0,Main,Lockdown,Strict
+15,04185D008F,Bat 58,3,0,Main,Lockdown,Random
+15,0416D4F544,Bat 33,5,0,Main,Lockdown,Strict
+15,0416D4D943,Bat 94,6,0,Main,Lockdown,Random
+16,0416D4EE76,Bat 106,1,0,Training,Training,Strict
+16,041768F274,Bat 22,2,0,Main,Baseline reference,Strict
+16,04185D008F,Bat 58,3,0,Main,Lockdown,Random
+16,0416ECC22D,Bat 107,4,1,Training,Training,Strict
+16,0416D4F544,Bat 33,5,0,Main,Baseline reference,Strict
+16,0416D4D943,Bat 94,6,0,Main,Lockdown,Random
+17,0416D4EE76,Bat 106,1,0,Main,Baseline,Strict
+17,04185D008F,Bat 58,3,0,Main,Baseline reference,Random
+17,0416ECC22D,Bat 107,4,1,Main,Baseline,Strict
+17,0416D4D943,Bat 94,6,0,Main,Baseline reference,Random
+18,0416D4EE76,Bat 106,1,0,Main,Baseline,Strict
+18,041768F274,Bat 110,2,0,Training,Training,Random
+18,0416ECC22D,Bat 107,4,1,Main,Baseline,Strict
+18,0416D4F544,Bat 114,5,0,Training,Training,Random
+19,0416D4EE76,Bat 106,1,0,Main,Lockdown,Strict
+19,041768F274,Bat 110,2,0,Main,Baseline,Random
+19,04185D008F,Bat 19,3,0,Training,Training,Strict
+19,0416ECC22D,Bat 76,4,0,Training,Training,Random
+19,0416D4F544,Bat 114,5,0,Main,Baseline,Random
+20,0416D4EE76,Bat 106,1,0,Main,Lockdown,Strict
+20,041768F274,Bat 110,2,0,Main,Baseline,Random
+20,04185D008F,Bat 19,3,0,Main,Baseline,Strict
+20,0416ECC22D,Bat 76,4,0,Main,Baseline,Random
+20,0416D4F544,Bat 114,5,0,Main,Baseline,Random
+21,0416D4EE76,Bat 106,1,0,Main,Lockdown,Strict
+21,041768F274,Bat 110,2,0,Main,Lockdown,Random
+21,04185D008F,Bat 19,3,0,Main,Baseline,Strict
+21,0416ECC22D,Bat 76,4,0,Main,Baseline,Random
+21,0416D4F544,Bat 114,5,0,Main,Lockdown,Random
+21,0416D4D943,Bat 55,6,0,Training,Training,Strict
+22,0416D4EE76,Bat 106,1,0,Main,Baseline reference,Strict
+22,041768F274,Bat 110,2,0,Main,Lockdown,Random
+22,04185D008F,Bat 19,3,0,Main,Lockdown,Strict
+22,0416ECC22D,Bat 76,4,0,Main,Lockdown,Random
+22,0416D4F544,Bat 114,5,0,Main,Lockdown,Random
+22,0416D4D943,Bat 55,6,0,Main,Baseline,Strict
+23,0416D4EE76,Bat 100,1,0,Training,Training,Random
+23,041768F274,Bat 110,2,0,Main,Lockdown,Random
+23,04185D008F,Bat 19,3,0,Main,Lockdown,Strict
+23,0416ECC22D,Bat 76,4,0,Main,Lockdown,Random
+23,0416D4F544,Bat 114,5,0,Main,Lockdown,Random
+23,0416D4D943,Bat 55,6,0,Main,Baseline,Strict
+24,0416D4EE76,Bat 100,1,0,Main,Baseline,Random
+24,041768F274,Bat 110,2,0,Main,Baseline reference,Random
+24,04185D008F,Bat 19,3,0,Main,Lockdown,Strict
+24,0416ECC22D,Bat 76,4,0,Main,Lockdown,Random
+24,0416D4F544,Bat 114,5,0,Main,Baseline reference,Random
+24,0416D4D943,Bat 55,6,0,Main,Lockdown,Strict
+25,0416D4EE76,Bat 100,1,0,Main,Baseline,Random
+25,04185D008F,Bat 19,3,0,Main,Baseline reference,Strict
+25,0416ECC22D,Bat 76,4,0,Main,Baseline reference,Random
+25,0416D4D943,Bat 55,6,0,Main,Lockdown,Strict
