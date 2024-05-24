@@ -79,7 +79,6 @@ This file is the output of the load.R script which processes the folder of raw c
 |Day		      |-        |Number of experimental day starting from the first day to the last sequentially|
 |DateTime     |-        |The astronomical date and time for each event of the experiment|
 |IdRFID       |-        |RFID number of a single bat, place-holders here as the RFID devices were not used for this experiment|
-|IdLabel			|-        |Short unique identifying label for each bat|
 |unitLabel		|-        |Code identifying which reward-dispensing device ('flower') was activated during an event|
 |             |RFID     |Detections of a transponder number|
 |             |CondMod  |Detections of both a transponder number and an infra-red beam interruption, identified as a nose-poke|
@@ -94,12 +93,12 @@ This file is the output of the load.R script which processes the folder of raw c
 |SystemMsg    |-        |Contains the volume of the fluctuating option at the time-points when the bats made visits to the fluctuating option, in units of pump steps|
 |MsgValue1    |-        |Events in the experimental schedule|
 |IdLabel      |-        |Short unique identifying label for each bat|
-|Cage         |-        ||
-|IdLabel      |-        ||
-|Discard      |-        ||
-|Stage      |-        ||
-|Substage     |-        ||
-|Notes  |-        ||
+|Cage         |-        |Cage number where the bat was housed during the experiment|
+|Discard      |-        |Binary value of 1 or 0 indicating whether the bat should be excluded from analysis|
+|Stage       |Stage of the experiment, either Training or Main|
+|Substage    |Substage of the experiment stage: Baseline or Experimental in the Main experiment|
+|Notes       |Any additional notes|
+
 
 
 ## 6. Content of "Main.csv" file
