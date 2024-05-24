@@ -99,8 +99,6 @@ This file is the output of the load.R script which processes the folder of raw c
 |Substage    |Substage of the experiment stage: Baseline or Experimental in the Main experiment|
 |Notes       |Any additional notes|
 
-
-
 ## 6. Content of "Main.csv" file
 This file is the output of the load.R script which processes the folder of raw csv files, with further information supplied by "ConditionsSubjectiveMean", "MasterTableSubjectiveMean", "ConditionsObjectiveMean" and "MasterTableObjectiveMean" csv files. It contains the data from the main experimental days of the experiment. 
 
@@ -108,30 +106,26 @@ This file is the output of the load.R script which processes the folder of raw c
 |-------------|---------|------------|
 |Day		      |-        |Number of experimental day starting from the first day to the last sequentially|
 |DateTime     |-        |The astronomical date and time for each event of the experiment|
-|IdLabel      |-        |Short unique identifying label for each bat|
+|IdRFID       |-        |RFID number of a single bat, place-holders here as the RFID devices were not used for this experiment|
 |unitLabel		|-        |Code identifying which reward-dispensing device ('flower') was activated during an event|
+|             |RFID     |Detections of a transponder number|
+|             |CondMod  |Detections of both a transponder number and an infra-red beam interruption, identified as a nose-poke|
+|             |pumpBeh  |Events relating to states of the syringe and its refilling algorithm|
+|             |exp      |Events related to the programmed reward schedule, clarified in **SystemMsg**|
 |eventDuration|-        |Duration of event in milliseconds|
-|reinforce1value|-      |Duration of event in milliseconds|
-|outFuncLabel|-         |Label indicating which 'flower' delivered a reward in response to a nose-poke|
-|outLabel	   |-         |Contents of this column are irrelevant for this experiment|
-|SystemMsg	 |-         |Contents of this column are irrelevant for this experiment|
-|Cohortday   |-         |Number of experimental day starting from the first day to the last sequentially|
-|Period      |-         |Period of the sine wave in hours|
-|Amplitude   |-         |Amplitude of the sine wave in units of pump steps|
-|Disp        |-         |Displacement above 0 of the sine wave output in units of pump steps|
-|Rel         |-         |Binary 1 or 0 indicating whether a particular flower was responsive to a bat|
-|Cond        |-         |This column indicated the stage of the experiment, Training or "Rateofchange"|
-|Reversal    |-         |Binary 1 or 0 indicating whether a particular day was the first night or reversal night of a condition|
-|Cohort      |-         |Number of each of cohort of 6 bats run together|
-|choice      |-         |Binary TRUE or FALSE to indicate if the choice is a true choice|
-|Experiment  |-         |This column indicates whether the bats experienced which level of the richness treatment|
-|sine_steps  |-         |Number of pump steps of the fluctuating reward at each recorded time-point|
-|sine_vol    |-         |Volume of the fluctuating reward in microLitres at each recorded time-point|
-|vis_vol     |-         |Volume of the reward obtained by the bats in microLitres at each recorded time-point|
-|timediff    |-         |Time elapsed in seconds since the first visit made for each of the bats|
-|chosen      |-         |Binary column containing the choice made by the bats converted to the fixed output in microLitres and the peak of the fluctuating output in microLitres|
-|Tracking    |-         |This column contains information about whether a bat was reversal responsive or not|
-
+|sense1duration|-       |Total duration of the infra-red beam interruption|
+|reinforce1value|-		  |Reward (in pump step units, delivered by a stepper motor syringe pump filled with sugar-water)|
+|reinforce1Account|-		|Duration of the RFID transponder detection|
+|outFuncLabel |-  	    |Label indicating which 'flower' delivered a reward in response to a nose-poke|
+|outLabel     |-        |'positive' indicates the delivery of a reward|
+|SystemMsg    |-        |Contains the volume of the fluctuating option at the time-points when the bats made visits to the fluctuating option, in units of pump steps|
+|MsgValue1    |-        |Events in the experimental schedule|
+|IdLabel      |-        |Short unique identifying label for each bat|
+|Cage         |-        |Cage number where the bat was housed during the experiment|
+|Discard      |-        |Binary value of 1 or 0 indicating whether the bat should be excluded from analysis|
+|Stage        |Stage of the experiment, either Training or Main|
+|Substage     |Substage of the experiment stage: Baseline or Experimental in the Main experiment|
+|Notes        |Any additional notes|
 
 ## 7. Content of "Pump_data.csv" file
 
