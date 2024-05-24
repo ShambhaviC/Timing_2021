@@ -153,4 +153,7 @@ This file is the output of the load.R script which processes the folder of raw c
 
 
 For further information contact: shambhavic21@gmail.com
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2b4a1a2b99a80381c5e7c66af83466412c101af5
