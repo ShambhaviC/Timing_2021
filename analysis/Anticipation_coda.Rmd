@@ -1,0 +1,857 @@
+---
+title: "Environment tracking and expecting reward: A coda"
+header-includes:
+   - \usepackage{lineno}
+   - \linenumbers
+   - \usepackage{float} \floatplacement{figure}{H}
+   - \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
+always_allow_html: yes
+output:
+   bookdown::html_document2:
+      fig_caption: yes
+      number_sections: no
+   bookdown::word_document2:
+      fig_caption: yes
+      number_sections: no
+   bookdown::pdf_document2:
+  #   number_sections: no
+  #   toc: no
+  #   number_sections: no
+  #   toc: no
+bibliography: timing.bib
+# csl: animal-cognition.csl
+---
+```{css style settings, echo = FALSE}
+blockquote {
+    margin: 0 0 20px;
+    font-size: 14px;
+}
+```
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, 
+  message = FALSE, 
+  warning = FALSE, 
+  fig.align = "center", 
+  fig.pos = "H")
+```
+
+```{r Reading-in-the-packages}
+# clearing the environment
+ rm(list = ls())
+
+# installing the required packages if needed and loading them
+if (!require(rmarkdown)) {
+  install.packages("rmarkdown")
+}
+if (!require(reshape2)) {
+  install.packages("reshape2")
+}
+if (!require(tufte)) {
+  install.packages("tufte")
+}
+if (!require(rticles)) {
+  install.packages("rticles")
+}
+if (!require(knitr)) {
+  install.packages("knitr")
+}
+if (!require(shiny)) {
+  install.packages("shiny")
+}
+if (!require(scales)) {
+  install.packages("scales")
+}
+if (!require(broom)) {
+  install.packages("broom")
+}
+if (!require(tidyverse)) {
+  install.packages("tidyverse")
+}
+if (!require(gluedown)) {
+  install.packages("gluedown")
+}
+if (!require(glue)) {
+  install.packages("glue")
+}
+if (!require(ggthemes)) {
+  install.packages("ggthemes")
+}
+if (!require(lubridate)) {
+  install.packages("lubridate")
+}
+if (!require(ggpubr)) {
+  install.packages("ggpubr")
+}
+if (!require(gridExtra)) {
+  install.packages("gridExtra")
+}
+if (!require(Hmisc)) {
+  install.packages("Hmisc")
+}
+# if (!require(diptest)) {
+#   install.packages("diptest")
+# }
+
+```
+
+```{=html}
+<style>
+body {
+text-align: justify}
+</style>
+```
+
+```{r Themes-and-CI-functions}
+
+# creating two themes for all the plots
+
+theme_timing <- function() {
+  theme_pubr() +
+    theme(
+      axis.text = element_text(size = 12, family = "Times"),
+      axis.title = element_text(size = 14, family = "Times"),
+      strip.text.x = element_text(size = 14, family = "Times"),
+      strip.text.y = element_text(size = 14, family = "Times"),
+      legend.text = element_text(size = 12, family = "Times"),
+      legend.title = element_text(size = 14, face = "bold", family = "Times")
+    )
+}
+
+theme_timing2 <- function() {
+  theme_bw() +
+    theme(
+      axis.text = element_text(size = 12, family = "Times"),
+      axis.title = element_text(size = 14, family = "Times"),
+      strip.text.x = element_text(size = 14, family = "Times"),
+      strip.text.y = element_text(size = 14, family = "Times"),
+      legend.text = element_text(size = 12, family = "Times"),
+      legend.title = element_text(size = 14, face = "bold", family = "Times")
+    )
+}
+ # writing a function to automate the reporting of an estimate and error bars
+report_m_ci_perc <- function(tbl, par = "_r_", brackets = "round") {
+  open_bracket <- case_when(
+    brackets == "round" ~ "(",
+    brackets == "square" ~ "[",
+    brackets == "squiggly" ~ "{",
+    brackets == "none" ~ "",
+    TRUE ~ str_sub(brackets, 1, 1)
+  )
+  
+  close_bracket <- case_when(
+    brackets == "round" ~ ")",
+    brackets == "square" ~ "]",
+    brackets == "squiggly" ~ "}",
+    brackets == "none" ~ "",
+    TRUE ~ str_sub(brackets, 2, 2)
+  )
+  
+  tbl <- tbl %>% 
+    mutate(CI = paste0(open_bracket, "95% CI ", ymin, ", ", ymax, close_bracket))
+  
+    return(glue("{tbl$y}% {tbl$CI}"))
+}
+
+# writing a function to make a table to get estimates and error bars as a model output
+
+model_outputs <- function(model, fixed_effects) {
+  
+# creating a table with the required values for the forest plot
+t1 <- fixef(model, 
+            probs = c(0.055, 0.945)) %>%
+  as_tibble() %>%
+  mutate(
+    `Fixed effect` = fixed_effects,
+    Estimate = round(Estimate, digits = 2),
+    Q5.5 = round(Q5.5, digits = 2),
+    Q94.5 = round(Q94.5, digits = 2)
+  ) %>%
+  # renaming the credibility intervals column
+  mutate("89% Credibility intervals" = paste0("[", Q5.5, ", ", Q94.5, "]")) %>%
+  #filter(`Fixed effect` != "Intercept") %>%
+  rename(labels = `Fixed effect`) %>%
+  select(labels, Estimate, `89% Credibility intervals`) %>%
+  mutate(All = paste0(Estimate, " ", `89% Credibility intervals`)) %>%
+  select(labels, All)
+}
+
+# setting the maximum value on the x axis to locate the labels
+max_xvalue_output <- function(model, fixed_effects) {
+  
+max_xvalue <- fixef(model, 
+                    probs = c(0.055, 0.945))%>%
+  as_tibble() %>%
+  mutate(
+    `Fixed effect` = fixed_effects,
+    Estimate = round(Estimate, digits = 2),
+    Q5.5 = round(Q5.5, digits = 2),
+    Q94.5 = round(Q94.5, digits = 2)
+  ) %>%
+  #filter(`Fixed effect` != "Intercept") %>%
+  select(Q94.5) %>%
+  filter(Q94.5 == max(Q94.5)) %>%
+  as.numeric()
+
+}
+
+```
+
+# Abstract
+
+The results of Chapter Three showed that the choice behavior of *G. mutica* bats depended on recent reinforcement history, rather than the anticipation of reward in the near future. In these experiments the bats had constant access to information about the state of the environment and two sources of reward were always available. I reasoned that under such conditions, anticipatory behavior by the bats might not be evident, as returning to the last option they found reward would suffice to meet their energetic needs. In this chapter, I carried out a confirmatory experiment wherein the bats were placed in a very simple reward schedule that contained a period where no reward was available. I found that when reward became available again after this period of inaccessibility, more than 50% of the first visits made by the bats was to the option previously experienced as rewarding: there was no evidence that bats could anticipate where reward would be available in the near future. 
+
+# Introduction
+
+In Chapter Three I showed that the bats made more visits to flowers where they had recently experienced higher reward, i.e., flowers with a recent history of rich reinforcement. The animals showed no evidence of perceiving an upward trend in reward magnitude, and so making more visits to a flower with a recent history of *increasing* reinforcement. A bat that perceived this increase on its past visits to such a flower would expect a higher reward on its next visit to this flower.
+
+The bats in the study in Chapter Three could learn the state of the environment at any time by visiting the fluctuating option: the volume of the fluctuating reward indicated the state of the environment. As a follow-up to this study, I carried out a confirmatory experiment addressing the question: where do bats expect the availability of reward given repeated past experience?
+
+I placed *Glossophaga mutica* bats in an environment with a deterministic reward schedule that, in principle, could be learned. Reward was available for five minutes at one of the flowers, followed by five minutes of no reward at either flower. This ten-minute interval was called a ‘block.’ Then the flower that was previously-rewarding remained non-rewarding, and reward was available for the next five minutes at the flower that was previously non-rewarding. This was followed by another period of no reward at either flower, or the sequence repeated until the end of the experimental night. The periods where reward was not available at either flower were placed in the protocol to prevent the bats from simply revisiting the flower that was rewarding on their last visit.
+
+The bats experienced two experimental conditions that tested where they expected reward to be. These were called ‘no-access conditions’: the flowers were made inaccessible during the non-rewarding phase of a block. Theoretically a single visit was enough to learn the location of the reward, so the proportion of the first visits after a no-access condition to the flower previously experienced as rewarding was analyzed. I hypothesized that if the bats’ decisions were mainly influenced by the history of reinforcement at the two options, the proportion would be significantly higher than 50%. If the bats used a representation of the reward structure of the environment, i.e., the reward schedule, the proportion would be significantly lower than 50%. That is, in the latter case, the bats would make most of their visits to the option that had previously been non-rewarding.
+
+
+# Materials and Methods
+
+## Subjects and housing
+
+The experiment was done at the Cognitive Neurobiology Lab at the Humboldt Universität zu Berlin. Bats of the species *Glossophaga mutica* were taken from the same captive colony at the Humboldt Universität described in Chapter Three of this thesis. Some of the animals had experienced being in the experimental apparatus before and some were naïve, but none of the animals had experienced being in this experimental schedule before. Fifteen animals completed the experiment. 
+
+## Experimental Setup
+
+*Reward*
+
+The reward received by the bats during the experiment was their main source of food: a 17 ± 0.2% by weight solution of sugar dissolved in water (prepared fresh every day or every other day), hereafter referred to as ‘nectar.’ The nectar was identical to that described in Chapter Three: a 1:1:1 mass-mixture of glucose (“Traubenzucker,” Müller’s Mühle GmbH, Germany), sucrose (“Zucker,” Belbake, Südzucker AG, Germany) and fructose (“Fruchtzucker,” Hamburger Zuckerhandelsgesellschaft GmbH, Germany).
+
+*Experimental Apparatus*
+
+The experimental setup was the same as described in Chapter Three of this thesis, with one modification. A divider made of cardboard was placed exactly half-way between the two flowers, sticking out into the cage. This was to ensure the bats could not fly directly between the two flowers, and instead had to fly away from one before visiting the other (Figure \@ref(fig:operant-wall)).
+
+(ref:operant-wall) Schematic of the operant wall (not drawn to scale)
+
+```{r, operant-wall, fig.cap= "(ref:operant-wall)", fig.with = 2, fig.height =1}
+
+p1 <- include_graphics("/Users/shambhavi/Google Drive/Experiments & Data/Timing_2021/analysis/images/operant_wall.png")
+
+p1
+```
+
+*Experimental procedure*
+
+The general experimental procedure was identical to the procedure used in the experiments described in Chapter Three. Completely automated data-collection happened for 12 hours every day, between 1400 and 0200 hours, CET. 
+
+The experiment was prepared every day in the morning during the light phase of the light-dark cycle. I first inspected the bats to make sure they were healthy and flying well. This was followed by a preliminary analysis of data collected the previous night with a Shiny App written in R to ensure the program had been executed correctly and the bats had drunk sufficient nectar (the equivalent of 25 kJ of energy). The old nectar was then flushed from the system and the system refilled with fresh nectar. Twice a week the system was flushed with 70% ethanol and de-calcified water to prevent the growth of pathogens. After the system was cleaned and refilled, I prepared supplemental food identical to that described in Chapter Three: 0.2 g Nektar Plus (Nekton, Germany) and 0.3 g milk powder (Milasan “Folgemilch 2,” Sunval Baby Food, Germany) in 1 mL of water per animal. I placed this supplemental food along with 2 mL of plain water in each bat’s cage before the start of the experiment. 
+
+The data were checked at 1800 hours CET to see if all the bats had made at least two visits to the flowers, and thus learned to trigger rewards. When a bat finished the experiment, it was removed from the cage, weighed, released into the colony and replaced with another bat.
+ 
+```{r pump-data}
+
+# reading in the pump data from the experiment
+Pump_data <- read.csv2("data/processed_data/Pump_data.csv", sep = ";", header = TRUE)
+
+#calculating the pump fill time 
+Filltime <- Pump_data %>% 
+  filter(SystemMsg == "start pump" | SystemMsg == "end pump") %>% 
+  mutate(interval = ifelse(SystemMsg == "start pump", as.numeric(difftime(lead(DateTime), DateTime, units = "secs")), "non-fill time")) %>% 
+  select(DateTime, IdLabel, MsgValue1, interval) %>% 
+  arrange(DateTime) %>% 
+  filter(interval != "non-fill time", 
+         interval < 300) %>% 
+  mutate(interval = as.integer(interval)/60) %>% 
+  summarise(mean_filltime = round(mean(interval), digits = 2),  
+            sd_filltime = round(sd(interval), digits = 2))
+
+# calculating the number of times the pump fills 
+Fillnum <- Pump_data %>% 
+  filter(SystemMsg == "start pump" | SystemMsg == "end pump") %>% 
+  mutate(interval = ifelse(SystemMsg == "start pump", as.numeric(difftime(lead(DateTime), DateTime, units = "secs")), "non-fill time")) %>% 
+  select(DateTime, Day, IdLabel, MsgValue1, interval) %>% 
+  arrange(DateTime) %>% 
+  filter(interval != "non-fill time", 
+         interval < 300) %>%
+  group_by(Day) %>% 
+  summarise(pump_events = n()) %>% 
+  ungroup() %>% 
+  summarise(mean_fillnum = round(mean(pump_events), digits = 2), 
+            sd_fillnum = round(sd(pump_events), digits = 2))
+```
+
+During the experimental night, when the syringe of the pump had been fully emptied, the pump had to refill with nectar from the reservoir. This event happened on average `r as.numeric(Filltime[1,1])` times per night (SD = ± `r as.numeric(Filltime[1,2])`), taking `r as.numeric(Fillnum[1,1])` minutes each time (SD = ± `r as.numeric(Fillnum[1,2])`). During this time, if the bats made visits to the flowers, they did not receive any reward. 
+
+## Experiment Schedule 
+
+*Pre-training and training*
+
+The experiment progressed through three stages: pre-training, training and the main experiment. The pre-training and training stages were identical to those in the experiments described in Chapter Three, except that the reward volumes available at the flowers during training were 25 $\mu$L and 13 $\mu$L. 
+
+*Main Experiment*
+
+The main experiment consisted of two nights of the baseline protocol (the ‘baseline’ days) and four nights of the experimental conditions (the ‘experimental’ nights).
+
+The baseline protocol consisted of a strict alternation of reward availability between the two flowers (Figure \@ref(fig:baseline)). The volume of the nectar reward was always 25 $\mu$L. The reward was available at one of the two flowers accessible to a bat at the start of an experimental night, and there was no reward available at the other flower. When a bat made its first rewarded visit of the night, the protocol was initiated, and proceeded for the rest of the night regardless of the bat’s behavior. After five minutes of reward availability at one flower and no reward at the other, both flowers became non-rewarding for the next five minutes, followed by only the previously non-rewarding flower becoming rewarding for the next five minutes. This schedule continued through the whole night: reward at one flower, no reward at the other; no reward at either flower; reward at the previously non-rewarding flower and no reward at the previously-rewarding flower. The period of time when reward was available at one flower plus the subsequent phase of no reward was termed a ‘block,’ and the start of the next block was the next availability of reward at the end of the no-reward phase. Thus, each block was ten minutes long.
+
+The first flower to be rewarding on the first baseline night was the flower the bat had visited more frequently during the training day, as it was assumed that the animal had a slight preference for this location and would be more likely to visit it and experience the reward. At the start of each subsequent night, both baseline and experimental, the first flower to be rewarding was the flower that had first been non-rewarding on the previous night to counteract any side-preferences that may develop. The bats received no cue on the baseline night to inform them which flower was the rewarding one and had to make visits to the flowers to experience reward.
+
+(ref:baseline) Schematic of the experimental protocol. Black bars represent the availability of reward (25 $\mu$L of nectar) an option. Vertical dashed lines represent the end of a phase and the start of the next one. 
+
+```{r baseline, fig.width = 3, fig.height = 1, fig.cap = "(ref:baseline)"}
+
+p2 <- include_graphics("/Users/shambhavi/Google Drive/Experiments & Data/Timing_2021/analysis/images/baseline.png")
+
+p2
+```
+
+The experimental protocol was identical to the baseline protocol, except for the introduction of the two experimental conditions (Figure \@ref(fig:experimental-conditions)).
+
+1)	No-access condition 1: The doors in front of the flowers rose up to block access to the flowers for the entire duration of the no-reward phase in a block until the start of the next block.
+
+2)	No-access condition 2: The doors in front of the flowers rose up to block access to the flowers when the no-reward phase was exactly half over, and the flowers remained blocked for the rest of the no-reward phase until the start of the next block.
+
+The movement of the doors produced a noise audible to the bats, which they could potentially use as a cue for the start and end of the no-access conditions.
+
+(ref:experimental-conditions) Schematic of the experimental conditions. The black bars indicate the availability of 25 $\mu$L of reward volume at a flower **a)** No-access condition 1: the red-shaded area indicates the time period during which the doors in front of the flowers are raised, blocking access to them. In this condition it is the entire length of the non-rewarding phase **b)** No-access condition 2: the green-shaded area indicates the time period during which access to the flowers is blocked. In this condition it is half the non-rewarding phase.
+
+```{r fig.width = 3, fig.height = 2}
+
+p3 <- include_graphics("/Users/shambhavi/Google Drive/Experiments & Data/Timing_2021/analysis/images/no_access_1.png")
+
+p4 <- include_graphics("/Users/shambhavi/Google Drive/Experiments & Data/Timing_2021/analysis/images/no_access_2.png")
+
+p3
+```
+
+``` {r experimental-conditions, fig.cap = "(ref:experimental-conditions)"}
+p4
+```
+
+The two no-access conditions were introduced to investigate *where* the bats expected reward to be available. The location of the first visit made after a no-access condition ended was considered for the analysis of the no-access conditions. I predicted that if the bats’ behavior was primarily influenced by reinforcement history, the proportion of the first visits after no-access condition 1 to the previously-rewarding flower should be higher than that after no-access condition 2, and higher than 0.5. I assumed that the bats would experience the non-rewarding phase of the block before no-access condition 2 began. The two choice proportions from the no-access conditions 1 and 2 should be equal to each other and lower than 0.5 if the bats’ expectation of reward location was influenced by their perception of the environmental structure.
+
+A block in which an experimental condition was executed was termed an experimental block (as opposed to the baseline blocks with free access), and the experimental blocks were distributed pseudo-randomly throughout the night. The bats experienced four experimental blocks for each of the experimental conditions. The schedule ensured that the bats experienced at least three baseline blocks in between each experimental block, and the experimental blocks were at neither the beginning nor end of the experimental night. This was because a bat that started making visits to the flowers later in the night would miss some of the experimental blocks if they had been scheduled after most of the blocks were finished.
+
+## Data analysis 
+
+The raw data were collected as comma-separated value (CSV) files. Each visit made by a bat included the date and time of the visit, the identity of the bat, the duration of interruption of the flower’s photo-gate and the volume of nectar dispensed. The CSV files were then read into R (version 3.6.3, R Development Core Team 2020), which was used for all statistical analyses and creation of plots.
+Some of the bats made a high proportion of visits to only one flower. As this behavior could result in these bats being ‘uninformed’ about the reward contingencies of the other flower, I used a criterion for inclusion in the analysis based on this ‘side bias.’ A bat had to make less than 90% of its visits to one side on at least one night of the baseline protocol, and on at least two nights of the experimental protocol to be included in the analysis.
+
+The first visits made after a no-access condition was experienced were taken for the analysis. The mean proportion of these visits made to the flower that was previously-experienced as rewarding was calculated, with 95% confidence intervals calculated by non-parametric bootstrapping using the Hmisc package [@jr_hmisc_2023].
+
+The data from the visits after no-access condition 2 (when both flowers were inaccessible for half the non-rewarding phase) are not presented. This was because this experimental condition was done on the assumption that the bats would make at least two visits in the half of the non-rewarding phase when the flowers were still accessible but reward unavailable. The assumption was not held up, and the bats made no visits in the first half of the non-rewarding phase before the flowers became inaccessible.
+
+# Results 
+
+```{r data-preparation}
+
+#####
+# Reading in the data 
+#####
+# reading in the main data from the experiment
+Main <- read.csv2("data/processed_data/Main.csv", sep = ";", header = TRUE)
+
+#####
+# Adding information about the blocks and lockdowns
+##### 
+
+# creating a look-up table for the experiment days for the individual bats
+Exp_day <- Main %>% 
+  ungroup() %>% 
+  select(Day, IdLabel) %>% 
+  distinct() %>% 
+  group_by(IdLabel) %>% 
+  mutate(exp_day = 1:n())
+
+# adding the experiment days to the main table
+Main <- left_join(Main, Exp_day, by = c("Day", "IdLabel"))
+
+# adding information about the block number and the time within a block
+Main <- Main %>% 
+  arrange(Day, DateTime) %>% 
+  group_by(Day, IdLabel) %>% 
+  mutate(# throwing in a reward column
+         reward = ifelse(!is.na(reinforce1value), 1,  0),
+         # adding a column with the block number
+         block = ifelse(SystemMsg == "start block nbr", 1, 0),
+         block_num = cumsum(block)) %>% 
+  select(-block) %>% 
+  ungroup() %>% 
+  group_by(Day, IdLabel, block_num) %>% 
+  mutate(# converting DateTime to the proper format
+         DateTime = as.POSIXct(DateTime),   
+         # adding a column with the time elapsed in a block
+         block_time = as.numeric(difftime(DateTime, min(DateTime), units = "secs"))) %>%
+  # removing the events that happened before the start of the first block
+  filter(block_num != 0)
+
+rm(Exp_day)
+
+```
+
+```{r checking-for-wrong-block-length}
+#####
+# Doing a sanity check: are there any absurdly long blocks or short blocks? 
+#####
+block_dur <- Main %>% 
+  ungroup() %>% 
+  group_by(Day, IdLabel, block_num) %>% 
+  # figuring out the first occurrence of a new block, 
+  # even one where the bats didn't make a visit
+  mutate(event_num = 1:n()) %>% 
+  # filtering out the first event in each block
+  filter(event_num == 1) %>% 
+  select(Day, DateTime, IdLabel, block_num, event_num) %>% 
+  filter(!is.na(block_num)) %>% 
+  ungroup() %>% 
+  group_by(Day, IdLabel) %>% 
+  # calculating the time difference between the various blocks in seconds, 
+  # the actual block durations
+  mutate(block_dur = as.numeric(difftime(lead(DateTime), DateTime, units = "secs"))) %>%
+  select(IdLabel, block_num, block_dur) %>%
+  filter(!is.na(block_dur))
+
+problem_blocks <- block_dur %>% 
+  # here we set a criterion for what counts as a super long block
+  mutate(problem = case_when(block_dur < 590 ~ 1, 
+                             block_dur > 610 & block_dur < 890 ~ 1, 
+                             block_dur > 910 ~ 1)) %>% 
+  filter(problem == 1)
+
+# That isn't too bad, it's only 4 bats and it only happened once in the whole
+# experiment. That can be safely ignored
+
+# removing the sanity check table 
+
+rm(problem_blocks)
+```
+
+Three out of the fifteen bats that completed the experiment made more than 90% of their visits to the same flower on both nights of the baseline and two or more of the experimental nights (Figure \@ref(fig:side-preference)). Only the remaining twelve animals were included in the analysis. 
+
+(ref:side-preference) The proportion of visits made to one of the two flowers available to each bat over the two baseline and four experimental nights. The horizontal dashed lines indicate a proportion that was >0.9 (90%) to either one of the two flowers. The colored lines and points are data from each individual bat. Note that two bats had the ID number 107, one male (m) and one female (f). The data from the bats were split into two arbitrary groups in the two vertical panels to make the plots clearer. **a)** Proportion of visits to one of the flowers in the two baseline nights **b)** Proportion of visits to one of the flowers in the four experimental nights. 
+
+```{r side-preference, fig.width = 10, fig.height = 4, fig.cap = "(ref:side-preference)"}
+#####
+# Which animals have a massive side preference? 
+# This will serve as an exclusion criterion. 
+######
+# Baseline days
+Sidepref_base <- Main %>% 
+  filter(eventDuration > 199, 
+         exp_day <= 2) %>% 
+  ungroup() %>%
+  select(Day, exp_day, IdLabel, unitLabel) %>% 
+  # getting the experimental days after the baseline training
+  mutate(Flower = as.numeric(str_extract(unitLabel, "[0-9]+")), 
+         Flower = ifelse(Flower %% 2 == 0, "Flower 2", "Flower 1")) %>%
+  group_by(exp_day, IdLabel, Flower)
+
+# Sidepref_b_condmods <- Sidepref_base %>% 
+#   filter(str_detect(unitLabel, "CondMod")) %>% 
+#   summarise(visits = n()) %>% 
+#   pivot_wider(names_from = "Flower", values_from = "visits") %>% 
+#   mutate(`Flower 1` = replace_na(`Flower 1`, 0), 
+#          `Flower 2` = replace_na(`Flower 2`, 0), 
+#          side_pref = round(`Flower 1`/(`Flower 2` + `Flower 1`), digits = 2), 
+#          exp_day = case_when(exp_day == 1 ~ "Day 1", 
+#                              exp_day == 2 ~ "Day 2"))
+# 
+# Sidepref_b_rfids <- Sidepref_base %>% 
+#   filter(str_detect(unitLabel, "RFID")) %>% 
+#   summarise(visits = n()) %>% 
+#   pivot_wider(names_from = "Flower", values_from = "visits") %>% 
+#   mutate(`Flower 1` = replace_na(`Flower 1`, 0), 
+#          `Flower 2` = replace_na(`Flower 2`, 0), 
+#          side_pref = round(`Flower 1`/(`Flower 2` + `Flower 1`), digits = 2), 
+#          exp_day = case_when(exp_day == 1 ~ "Day 1", 
+#                              exp_day == 2 ~ "Day 2"))
+
+Sidepref_b_both <- Sidepref_base %>% 
+  filter(str_detect(unitLabel, "RFID") | str_detect(unitLabel, "CondMod")) %>% 
+  summarise(visits = n()) %>% 
+  pivot_wider(names_from = "Flower", values_from = "visits") %>% 
+  mutate(`Flower 1` = replace_na(`Flower 1`, 0), 
+         `Flower 2` = replace_na(`Flower 2`, 0), 
+         side_pref = round(`Flower 1`/(`Flower 2` + `Flower 1`), digits = 2), 
+         exp_day = case_when(exp_day == 1 ~ "Day 1", 
+                             exp_day == 2 ~ "Day 2"))
+
+# Sidepref_b_condmods %>%
+#   mutate(Group = ifelse(str_detect(IdLabel, "10")|str_detect(IdLabel, "11"), 1, 2)) %>% 
+#   ggplot(aes(exp_day, side_pref, colour = IdLabel)) + 
+#   geom_point() + 
+#   geom_line(aes(group = IdLabel)) + 
+#   geom_hline(yintercept = c(0.1, 0.9), linetype = "dashed") + 
+#   facet_grid(.~Group) +
+#   xlab("Baseline day") + 
+#   ylab("Proportion of CondMods to the \n odd-numbered flower") + 
+#   theme_bw()
+# 
+# Sidepref_b_rfids %>%
+#   mutate(Group = ifelse(str_detect(IdLabel, "10")|str_detect(IdLabel, "11"), 1, 2)) %>% 
+#   ggplot(aes(exp_day, side_pref, colour = IdLabel)) + 
+#   geom_point() + 
+#   geom_line(aes(group = IdLabel)) + 
+#   geom_hline(yintercept = c(0.1, 0.9), linetype = "dashed") + 
+#   facet_grid(.~Group) +
+#   xlab("Baseline day") + 
+#   ylab("Proportion of RFIDs to the \n odd-numbered flower") + 
+#   theme_bw()
+
+p5 <- Sidepref_b_both %>%
+  mutate(Group = ifelse(str_detect(IdLabel, "10") | str_detect(IdLabel, "11"), 1, 2)) %>%
+  rename(Bat = IdLabel) %>% 
+  ggplot(aes(exp_day, side_pref, colour = Bat)) + 
+  geom_point() + 
+  geom_line(aes(group = Bat)) + 
+  geom_hline(yintercept = c(0.1, 0.9), linetype = "dashed") + 
+  facet_grid(.~Group) +
+  xlab("Baseline day") + 
+  ylab("Visits to the \n right-hand flower") + 
+  scale_color_viridis_d() + 
+  theme_timing2() 
+  # theme(legend.text = element_text(size = 16, family = "Times"),
+  #     legend.title = element_text(size = 18, face = "bold", family = "Times"))
+
+# Based on the agreed on criterion Bats 111 and 87 should be excluded
+# Now let's do the same for the experimental days
+
+#####
+# Experimental days
+Sidepref_exp <- Main %>% 
+  filter(eventDuration > 199, 
+         exp_day > 2) %>% 
+  ungroup() %>%
+  select(Day, exp_day, IdLabel, unitLabel) %>% 
+  # getting the experimental days after the baseline training
+  mutate(Flower = as.numeric(str_extract(unitLabel, "[0-9]+")), 
+         Flower = ifelse(Flower %% 2 == 0, "Flower 2", "Flower 1")) %>%
+  group_by(exp_day, IdLabel, Flower)
+
+# Sidepref_e_condmods <- Sidepref_exp %>% 
+#   filter(str_detect(unitLabel, "CondMod")) %>% 
+#   summarise(visits = n()) %>% 
+#   pivot_wider(names_from = "Flower", values_from = "visits") %>% 
+#   mutate(`Flower 1` = replace_na(`Flower 1`, 0), 
+#          `Flower 2` = replace_na(`Flower 2`, 0), 
+#          side_pref = round(`Flower 1`/(`Flower 2` + `Flower 1`), digits = 2), 
+#          exp_day = case_when(exp_day == 3 ~ "Day 3", 
+#                              exp_day == 4 ~ "Day 4", 
+#                              exp_day == 5 ~ "Day 5", 
+#                              exp_day == 6 ~ "Day 6"))
+# 
+# Sidepref_e_rfids <- Sidepref_exp %>% 
+#   filter(str_detect(unitLabel, "RFID")) %>% 
+#   summarise(visits = n()) %>% 
+#   pivot_wider(names_from = "Flower", values_from = "visits") %>% 
+#   mutate(`Flower 1` = replace_na(`Flower 1`, 0), 
+#          `Flower 2` = replace_na(`Flower 2`, 0), 
+#          side_pref = round(`Flower 1`/(`Flower 2` + `Flower 1`), digits = 2), 
+#          exp_day = case_when(exp_day == 3 ~ "Day 3", 
+#                              exp_day == 4 ~ "Day 4", 
+#                              exp_day == 5 ~ "Day 5", 
+#                              exp_day == 6 ~ "Day 6"))
+
+Sidepref_e_both <- Sidepref_exp %>% 
+  filter(str_detect(unitLabel, "RFID") | str_detect(unitLabel, "CondMod")) %>% 
+  summarise(visits = n()) %>% 
+  pivot_wider(names_from = "Flower", values_from = "visits") %>% 
+  mutate(`Flower 1` = replace_na(`Flower 1`, 0), 
+         `Flower 2` = replace_na(`Flower 2`, 0), 
+         side_pref = round(`Flower 1`/(`Flower 2` + `Flower 1`), digits = 2), 
+         exp_day = case_when(exp_day == 3 ~ "Day 3", 
+                             exp_day == 4 ~ "Day 4", 
+                             exp_day == 5 ~ "Day 5", 
+                             exp_day == 6 ~ "Day 6"))
+
+# Sidepref_e_condmods %>%
+#   mutate(Group = ifelse(str_detect(IdLabel, "10")|str_detect(IdLabel, "11"), 1, 2)) %>% 
+#   ggplot(aes(exp_day, side_pref, colour = IdLabel)) + 
+#   geom_point() + 
+#   geom_line(aes(group = IdLabel)) + 
+#   geom_hline(yintercept = c(0.1, 0.9), linetype = "dashed") + 
+#   facet_grid(.~Group) +
+#   xlab("Experimental day") + 
+#   ylab("Proportion of CondMods to the \n odd-numbered flower") + 
+#   theme_bw()
+# 
+# Sidepref_e_rfids %>%
+#   mutate(Group = ifelse(str_detect(IdLabel, "10")|str_detect(IdLabel, "11"), 1, 2)) %>% 
+#   ggplot(aes(exp_day, side_pref, colour = IdLabel)) + 
+#   geom_point() + 
+#   geom_line(aes(group = IdLabel)) + 
+#   geom_hline(yintercept = c(0.1, 0.9), linetype = "dashed") + 
+#   facet_grid(.~Group) +
+#   xlab("Experimental day") + 
+#   ylab("Proportion of RFIDs to the \n odd-numbered flower") + 
+#   theme_bw()
+
+p6 <- Sidepref_e_both %>%
+  mutate(Group = ifelse(str_detect(IdLabel, "10") | str_detect(IdLabel, "11"), 1, 2)) %>%
+  rename(Bat = IdLabel) %>% 
+  ggplot(aes(exp_day, side_pref, colour = Bat)) + 
+  geom_point() + 
+  geom_line(aes(group = Bat)) + 
+  geom_hline(yintercept = c(0.1, 0.9), linetype = "dashed") + 
+  facet_grid(.~Group) +
+  xlab("Experimental day") + 
+  ylab("Visits to the \n right-hand flower") + 
+  scale_color_viridis_d() + 
+  theme_timing2()  
+  # theme(legend.text = element_text(size = 16, family = "Times"),
+  #     legend.title = element_text(size = 18, face = "bold", family = "Times"))
+
+ggarrange(p5, p6, ncol = 2, labels = c("a)", "b)"), legend = "bottom", common.legend = TRUE)
+
+# Based on these plots bats 107f and 102 need to be removed. 
+
+# Thus we are left with a final sample size of 12 bats for where anticipation. 
+
+# The 3 side biased animals can be analyzed separately for when anticipation 
+# alone
+```
+
+```{r excluding-bats-with-side-preference}
+
+######
+# creating a vector with the bats to be excluded
+exclude <- c("Bat 87", "Bat 107f", "Bat 102")
+
+# excluding the bats with a high side preference from the main data
+
+Main <- Main %>%
+  filter(!IdLabel %in% exclude)
+```
+
+The proportion of choices for the previously-rewarding option on the first visit after no-access condition 1 (when both flowers were inaccessible for the entire duration of the non-rewarding phase) was significantly higher than 0.5 (Figure \@ref(fig:proportion-first-visit-post-no-access-previously-rewarding)). 
+
+```{r marking-experimental-blocks-and-first-post-lockdown-visits}
+######
+# Marking the experimental blocks and the first post lockdown-visit
+######
+
+# adding the information about the duration of each block to the main table
+Main <- left_join(Main, block_dur, by = c("Day", "IdLabel", "block_num")) 
+  
+# now adding information about which blocks were lockdown blocks
+# and which type they were: 
+# 1 = lockdown starting at 300 seconds 
+# 2 = lockdown starting at 450 seconds 
+
+Main <- Main %>% 
+  # making a column to mark which lockdown is occurring 
+  mutate(exp_block_type = case_when(SystemMsg == "block until the end" & block_time < 400 ~ 1,
+                                    SystemMsg == "block until the end" & block_time > 400 ~ 2,
+                                    SystemMsg == "start block nbr" ~ 0)) %>% 
+  fill(exp_block_type) %>% 
+  mutate(exp_block_type = replace_na(exp_block_type, 0)) %>% 
+  ungroup() %>% 
+  group_by(Day, IdLabel) %>% 
+  mutate(# adding a column to mark the first post-lockdown block
+         post_ld_block = case_when(# inserting a 1 at the start of the post-ld
+                                   # block and a 0 at the start of the other 
+                                   # blocks
+                                   exp_block_type < lag(exp_block_type) ~ 1,
+                                   block_num > lag(block_num) & 
+                                   exp_block_type == lag(exp_block_type) ~ 0)) %>% 
+  # filling up the post lockdown block column
+  fill(post_ld_block) %>% 
+  ungroup() %>% 
+  # making a column to mark the CondMods 
+  mutate(visit_nonvisit = ifelse(str_detect(unitLabel, "CondMod"), "CondMod", "other")) %>% 
+  group_by(Day, IdLabel, block_num, visit_nonvisit) %>% 
+  mutate(# adding a temporary column with the count of the different 
+         # unitLabels so the CondMods are separate from the others
+         vis_count = 1:n(),
+         # now marking the first post-lockdown visit as the first CondMod in 
+         # a post-lockdown block, regardless of side: a post-lockdown block,
+         # a CondMod and the first visit grouped by visit_nonvisit
+         first_pl_visit = ifelse(post_ld_block == 1 & 
+                                 str_detect(unitLabel, "CondMod") &
+                                   vis_count == 1, 1, 0),
+         # now replacing the NAs
+         first_pl_visit = replace_na(first_pl_visit, 0)) %>% 
+  ungroup() %>% 
+  # removing the helper columns
+  select(-vis_count, -visit_nonvisit) %>% 
+  # marking the probe trial blocks
+  mutate(exp_block_type = ifelse(block_dur > 800, 3, exp_block_type))
+
+```
+
+```{r marking-visits-during-non-rewarding-phases-of-normal-blocks}
+
+#####
+# Marking the visits during the non-rewarding phases of the non-experimental
+# blocks 
+#####
+
+# creating the first look up table to find the rewarding flower for each block
+block_rew_flower <- Main %>% 
+  ungroup() %>% 
+  group_by(Day, IdLabel, block_num) %>%
+  # marking the flowers that gave a reward in each block the bats made visits
+  mutate(rew_flower = ifelse(str_detect(unitLabel, "CondMod") & !is.na(reinforce1value), 
+         as.numeric(str_extract(unitLabel, "[0-9]+")), NA)) %>% 
+  select(Day, IdLabel, block_num, rew_flower) %>% 
+  filter(!is.na(rew_flower)) %>% 
+  # removing the duplicated rows 
+  mutate(duplicated = ifelse(IdLabel == lag(IdLabel) & 
+                               block_num == lag(block_num), TRUE, FALSE), 
+         duplicated = replace_na(duplicated, FALSE)) %>% 
+  filter(duplicated == FALSE) %>% 
+  select(-duplicated) %>% 
+  ungroup() %>%
+  group_by(Day, IdLabel) %>% 
+  # finding the first block
+  mutate(min_block_num = min(block_num)) %>% 
+  filter(block_num == min_block_num) %>% 
+  select(-min_block_num) %>% 
+  # noting which block had which flower rewarding
+  mutate(block_type = ifelse(block_num %% 2 == 1, "odd block", "even block")) %>% 
+  # filling in which flower was rewarding in each type of block as all the bats 
+  # had strict alternation
+  pivot_wider(names_from = block_type, values_from = rew_flower) %>% 
+  mutate(`odd block` = case_when(is.na(`odd block`) & `even block` %% 2 == 0 ~ `even block` - 1, 
+                                 is.na(`odd block`) & `even block` %% 2 == 1 ~ `even block` + 1, 
+                                 TRUE ~ as.numeric(`odd block`)),
+         `even block` = case_when(is.na(`even block`) & `odd block` %% 2 == 0 ~ `odd block` - 1, 
+                                  is.na(`even block`) & `odd block` %% 2 == 1 ~ `odd block` + 1, 
+                                  TRUE ~ as.numeric(`even block`))) %>% 
+  select(-block_num) %>% 
+  # putting it all into one column
+  pivot_longer(names_to = "block_type", values_to = "rew_flower", cols = 3:4)
+
+# creating a second look-up table to find the rewarding flower
+complete_block_rew_flower <- block_rew_flower %>%
+  ungroup() %>% 
+  select(Day, IdLabel) %>% 
+  distinct() %>% 
+  # creating a list of block numbers from 1 to 72 for each bat and each day
+  mutate(block_count = 72, 
+         block_num = map(block_count, seq, from = 1, by = 1)) %>% 
+  select(-block_count) %>% 
+  unnest(cols = block_num) %>%
+  # noting down the odd and even blocks 
+  mutate(block_type = ifelse(block_num %% 2 == 1, "odd block", "even block")) %>% 
+  # joining the previous look-up table to this one with the information about 
+  # which flower is rewarding in each block
+  left_join(block_rew_flower, by = c("Day", "IdLabel", "block_type")) %>% 
+  select(-block_type)
+
+# removing the now superfluous first look-up table
+rm(block_rew_flower)  
+
+# joining the second look-up table with all the information to the main table
+Main <- left_join(Main, complete_block_rew_flower, by = c("Day", "IdLabel", "block_num")) %>% 
+  # adding a column noting whether a bat made a visit to the previously rewarding option or not
+  mutate(choice_prev = as.numeric(str_extract(unitLabel, "[0-9]+")), 
+         choice_prev = ifelse(choice_prev == rew_flower, 0, 1), 
+         choice_prev = ifelse(choice_prev == 1, 0, 1))
+
+# filtering out the non-rewarding phase of all the blocks
+Non_rw_phase <- Main %>% 
+  filter(block_time >= 300)
+
+```
+
+(ref:proportion-first-visit-post-no-access-previously-rewarding) The proportion of the first visits after a no-access condition to the previously-rewarding option. Colored points indicate the proportion of the first visits to the previously-rewarding option for each individual bat. The large red circle gives the mean and the red vertical lines the 90% confidence intervals from non-parametric bootstraps. The black whiskers give the 95% CI from non-parametric bootstraps.
+
+```{r proportion-first-visit-post-no-access-previously-rewarding, fig.width = 3, fig.height = 3, fig.cap = "(ref:proportion-first-visit-post-no-access-previously-rewarding)"}
+
+#####
+# Calculating the proportino of visits to the previously-rewarding flower on the first visit after a no-access condition
+#####
+
+# Note: It appeared none of the bats made a visit during the non-rewarding phase
+# of lockdown 2, meaning that the assumption behind this condition was violated. Therefore the data from this condition was not analysed or plotted 
+
+first_pl_visit <- Main %>% 
+  ungroup() %>% 
+  # filtering the experimental blocks themselves and the blocks immediately
+  # after
+  filter(exp_block_type == 1 | exp_block_type == 2 | post_ld_block == 1) %>%
+  # selecting the relevant columns 
+  select(Day, DateTime, unitLabel, reinforce1value, outLabel, IdLabel, 
+         block_num, exp_block_type, post_ld_block, first_pl_visit, 
+         choice_prev) %>%
+  # inserting NAs into the experiment block type column so it can be filled up
+  # and we know the exp_block_type in the previous block to a post-lockdown 
+  # block
+  mutate(exp_block_type = ifelse(exp_block_type == 0, NA, exp_block_type)) %>% 
+  group_by(Day, IdLabel) %>% 
+  fill(exp_block_type) %>% 
+  # filtering out just the first post-lockdown block
+  filter(first_pl_visit == 1) %>% 
+  ungroup() %>% 
+  select(IdLabel, exp_block_type, choice_prev) %>% 
+  mutate(exp_block_type = ifelse(exp_block_type == 2, 1, 0)) %>% 
+  rename(lockdown_2 = exp_block_type)
+
+ind_first_pl_visit <- first_pl_visit %>% 
+  ungroup() %>% 
+  group_by(lockdown_2, IdLabel) %>% 
+  summarise(mean_ld = mean(choice_prev)) %>% 
+  mutate(lockdown_2 = as.factor(lockdown_2), 
+         lockdown_2 = ifelse(lockdown_2 == 0, "condition 1", "condition 2")) %>%
+  rename(`No-access conditions` = lockdown_2) 
+
+dodge <- position_dodge(width=0.1)
+
+alpha_1 <- 0.05
+
+p7 <- first_pl_visit %>% 
+  filter(lockdown_2 == 0) %>% 
+  rename(`No-access conditions` = lockdown_2) %>% 
+  ggplot() + 
+  stat_summary(aes(1, choice_prev), fun.data = "mean_cl_boot", geom = "errorbar",
+               color = "black", width = 0.1,
+               fun.args = list(conf.int = 1 - alpha_1)) +
+  stat_summary(aes(1, choice_prev), fun.data = mean_cl_boot,
+               fun.args = list(conf.int = 1 - 2*(alpha_1)),
+               color = "red", size = 1) +
+  geom_jitter(data = ind_first_pl_visit %>% 
+              filter(`No-access conditions` == "condition 1"), 
+              aes(1, mean_ld, colour = IdLabel), alpha = 0.7, width = 0.03) + 
+  ylim(0,1) + 
+  geom_hline(yintercept = 0.5, linetype = "dashed") + 
+  ylab("Visits to the \n previously-rewarding option") + 
+  xlab("Bat") + 
+  scale_x_continuous(breaks = NULL, name = "", limits = c(0.75, 1.25)) +
+  theme_timing2() + 
+  scale_color_viridis_d(guide = "none")
+
+p7
+```
+
+# Discussion
+
+In the experiment described in this chapter nectar-feeding bats experienced a deterministic reward schedule during which they were temporarily blocked access to the sources of reward. I aimed to investigate whether the bats’ expectation of the location of reward was influenced by reinforcement history or an accurate perception of the reward schedule. I found that the bats visited sources of reward where they last experienced reward, i.e, with a richer recent history of reinforcement, at a proportion significantly higher than chance. It must be noted that only one of the experimental conditions worked as intended; the bats made no visits to either flower in the two and a half minutes before the start of no-access condition 2 when no reward was available.  
+
+```{r blocks-per-bat}
+
+blocks_per_bat <- Main %>%
+  ungroup() %>% 
+  filter(exp_block_type == 0 & !is.na(reinforce1value)) %>% 
+  select(exp_day, IdLabel, block_num) %>% 
+  distinct() %>% 
+  group_by(IdLabel, exp_day) %>%
+  summarise(num_blocks = n()) %>% 
+  ungroup() %>% 
+  #group_by(exp_day) %>% 
+  group_modify(~ mean_cl_boot(.x$num_blocks, conf.int = 0.95)) %>% 
+  mutate(y = round(y, digits = 2), 
+         ymin = round(ymin, digits = 2), 
+         ymax = round(ymax, digits = 2))
+  
+```
+
+For bats to correctly perceive that the rewarding contingencies of the two flowers had changed, it was necessary that they perceived the passage of time. Specifically, in order to correctly visit the newly-rewarding flower after a no-access period, the bats needed to perceive that the rewarding period of the previously-rewarding flower had ended. For this reason, the bats received no sensory input about the location of reward at any given time, meaning that, once a bat made its first rewarded visit, the protocol proceeded regardless of what the bat experienced. The only cue the bats received was the movement of the doors in front of the flowers, which did not indicate where reward was available, only that it was potentially available again. 
+
+With this design it was not possible to be sure that the bats experienced the length of the rewarding interval a sufficient number of times to reproduce it in their behavior. However, I compensated for this by allowing the bats the chance to experience the five-minute rewarding interval up to 72 times every night. The bats made rewarded visits in `r report_m_ci_perc(blocks_per_bat, par = "y", brackets = "square")` blocks per night on average with the experiment lasting 6 nights in total.
+
+Consistent with the data from the other experiments described in this thesis, nectar-feeding bats relied on their most recent history of reinforcement at a spatial location in their choice behavior. The reward schedule of the environment was a predictable one, based both on the time that passed since the last experience of reward as well as the auditory cue of the flower doors moving. The two potentially rewarding spatial locations also had the most discriminable difference: ‘something’ vs ‘nothing’, compared to the gradually changing reward outputs of the experiments in Chapter Three. Nevertheless, the bats show no evidence of anticipatory behavior.
+
+New flowers can bloom on a flowering plant on a daily basis, and a newly opened flower is a rich reward as it has likely not yet been discovered or tapped by competitors. The nectar itself is a self-replenishing resource, and an emptied flower refills approximately at a constant rate. Anticipating the first availability of reward can therefore be a huge advantage to a nectar-feeding animal, as would anticipating when a flower that has just been visited will be refilled and worth visiting again. In all the experiments described in this thesis, Glossophagine bats showed that when they were trained to a reward schedule wherein reward became available at a certain time during the day (1400 h, for example), they grew more active in the 30 minutes prior to that time, making visits to the flowers in anticipation of reward. This sort of reward-anticipation has also been observed in other nectarivores like the stingless bees *Melipona fasciculata* [@de_jesus_timeplace_2014], *Melipona subnitida* [@silva_temporal_2021] and *Trigona fulviventris* [@murphy_time-place_2008]. 
+
+Hummingbirds learn specific refill times of flowers, differentiating between 10 and 20 minutes [@henderson_timing_2006]; and Glossophagine bats in a peak-procedure experiment have been shown to adjust their revisit time intervals to flowers based on their nectar-secreting rates, showing greater delays in re-visiting flowers that refill more slowly [@tolch_bat_2006]. In the experiments described in this chapter, the bats did not have access to a steady stream of information as they did in the peak-procedure task. Rather, they were required to mentally ‘time-travel’ without any environmental input, an ability they do not show evidence of having. 
+  
+# References
