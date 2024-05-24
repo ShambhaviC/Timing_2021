@@ -96,9 +96,9 @@ This file is the output of the load.R script which processes the folder of raw c
 |IdLabel      |-        |Short unique identifying label for each bat|
 |Cage         |-        |Cage number where the bat was housed during the experiment|
 |Discard      |-        |Binary value of 1 or 0 indicating whether the bat should be excluded from analysis|
-|Stage       |Stage of the experiment, either Training or Main|
-|Substage    |Substage of the experiment stage: Baseline or Experimental in the Main experiment|
-|Notes       |Any additional notes|
+|Stage        |-         |Stage of the experiment, either Training or Main|
+|Substage     |-         |Substage of the experiment stage: Baseline or Experimental in the Main experiment|
+|Notes        |-         |Any additional notes|
 
 ## 6. Content of "Main.csv" file
 This file is the output of the load.R script which processes the folder of raw csv files, with further information supplied by "ConditionsSubjectiveMean", "MasterTableSubjectiveMean", "ConditionsObjectiveMean" and "MasterTableObjectiveMean" csv files. It contains the data from the main experimental days of the experiment. 
@@ -124,9 +124,9 @@ This file is the output of the load.R script which processes the folder of raw c
 |IdLabel      |-        |Short unique identifying label for each bat|
 |Cage         |-        |Cage number where the bat was housed during the experiment|
 |Discard      |-        |Binary value of 1 or 0 indicating whether the bat should be excluded from analysis|
-|Stage        |Stage of the experiment, either Training or Main|
-|Substage     |Substage of the experiment stage: Baseline or Experimental in the Main experiment|
-|Notes        |Any additional notes|
+|Stage        |-         |Stage of the experiment, either Training or Main|
+|Substage     |-         |Substage of the experiment stage: Baseline or Experimental in the Main experiment|
+|Notes        |-         |Any additional notes|
 
 ## 7. Content of "Pump_data.csv" file
 
@@ -147,9 +147,9 @@ This file is the output of the load.R script which processes the folder of raw c
 |IdLabel      |-        |Short unique identifying label for each bat|
 |Cage         |-        |Cage number where the bat was housed during the experiment|
 |Discard      |-        |Binary value of 1 or 0 indicating whether the bat should be excluded from analysis|
-|Stage        |Stage of the experiment, either Training or Main|
-|Substage     |Substage of the experiment stage: Baseline or Experimental in the Main experiment|
-|Notes        |Any additional notes|
+|Stage        |-         |Stage of the experiment, either Training or Main|
+|Substage     |-         |Substage of the experiment stage: Baseline or Experimental in the Main experiment|
+|Notes        |-         |Any additional notes|
 
 
 For further information contact: shambhavic21@gmail.com
