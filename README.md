@@ -23,22 +23,26 @@ These files were written to execute the experimental schedule for each day of th
 
 |Column label |Type     |Description |
 |-------------|---------|------------|
-|day          |-        |Day number of the level of richness treatment that each group of bats experienced|
 |DateTime     |-        |The astronomical date and time for each event of the experiment|
 |IdRFID       |-        |RFID number of a single bat, place-holders here as the RFID devices were not used for this experiment|
 |IdLabel			|-        |Short unique identifying label for each bat|
 |unitLabel		|-        |Code identifying which reward-dispensing device ('flower') was activated during an event|
 |             |CondMod  |Detections of both a transponder number and an infra-red beam interruption, identified as a nose-poke|
-|             |pumpBeh  | Events relating to states of the syringe and its refilling algorithm|
+|             |pumpBeh  |Events relating to states of the syringe and its refilling algorithm|
 |             |exp      |Events related to the programmed reward schedule, clarified in **SystemMsg**|
 |eventDuration|-        |Duration of event in milliseconds|
+|sense1duration|-       |Total duration of the infra-red beam interruption|
+|sense1Events|-         |Number of interruptions of infra-red beam. When such events happen fast enough (less than 200ms apart) these are registered as a single event, but the number of such short interruptions is given here|
+|senseRFIDrecords|-     |Number of times the transponder number was detected|
 |reinforce1value|-		  |Reward (in pump step units, delivered by a stepper motor syringe pump filled with sugar-water)|
+|reinforce1Total|-		  |Sum of duration of the infra-red beam interruption and RFID transponder detection|
+|reinforce1Account|-		|Duration of the RFID transponder detection|
 |outFuncLabel |-  	    |Label indicating which 'flower' delivered a reward in response to a nose-poke|
-|outLabel     |-       |'positive' indicates the delivery of a reward|
-|SystemMsg    |-       |Contains the volume of the fluctuating option at the time-points when the bats made visits to the fluctuating option, in units of pump steps|
-|MsgValue1    |-       |Events in the experimental schedule: 'start' indicating the start of the experimental program; 'end' indicating the end of the experimental program; 'switch' indicating a reversal of reward contingencies between the two flowers of a pair assigned to an individual bat|
-|MsgValue2    |-       ||
-|MSgValue3    |-       ||
+|outLabel     |-        |'positive' indicates the delivery of a reward|
+|SystemMsg    |-        |Contains the volume of the fluctuating option at the time-points when the bats made visits to the fluctuating option, in units of pump steps|
+|MsgValue1    |-        |Events in the experimental schedule|
+|MsgValue2    |-        |The contents of this column are not relevant to this experiment|
+|MSgValue3    |-        |The contents of this column are not relevant to this experiment|
 
 ## 3. Content of "ConditionsTiming.csv"
 
@@ -47,17 +51,14 @@ This file is user-generated, providing relevant experimental information not pre
 |Column label|	Description|
 |------------|-------------|
 |Day		     |Number of each day of each stage of the experiment|
-|Cohortday   |Name of each day of each stage of the experiment for each cohort of 6 bats that were run in parallel in the experiments|
+|IdRFID		   |RFID number of a single bat, place-holders here as the RFID devices were not used for this experiment|
 |IdLabel     |Short unique identifying label for each bat|
-|Loc         |Flower number|
-|Period      |Period of the sine wave in seconds|
-|Amplitude   |Amplitude of the sine wave in units of pump steps|
-|Disp        |Displacement above 0 of the sine wave output in units of pump steps|
-|Rel         |Binary 1 or 0 indicating whether a particular flower was responsive to a bat|
-|Discard     |Binary 1 or 0 indicating whether a bat should be removed from the analysis|
-|Cond        |This column indicated the stage of the experiment, Training or "Rateofchange"|
-|Reversal    |Binary 1 or 0 indicating whether a particular day was the first night or reversal night of a condition|
-|Cohort      |Number of each of cohort of 6 bats run together|
+|Cage        |Flower number|
+|Discard     |Binary value of 1 or 0 indicating whether the bat should be excluded from analysis|
+|Stage       |Stage of the experiment, either Training or Main|
+|Substage    |Substage of the experiment stage: Baseline or Experimental in the Main experiment|
+|Notes       |Any additional notes|
+
 
 ## 4. Content of "MasterTableTiming.csv"
 
@@ -67,7 +68,7 @@ This file is user-generated and allows mapping the raw csv files to the respecti
 |------------|-------------|
 |Day         |Number of experimental day starting from the first day to the last sequentially|
 |Path        |Path of the raw csv file corresponding to the day|
-|Comments    |This column indicates which stages of the experiment were carried out on a particular day|
+|Comments    |This column contains any relevant notes about the raw data file|
 
 ## 5. Content of "Training.csv" file
 
@@ -76,16 +77,30 @@ This file is the output of the load.R script which processes the folder of raw c
 |Column label |Type     |Description |
 |-------------|---------|------------|
 |Day		      |-        |Number of experimental day starting from the first day to the last sequentially|
+|DateTime     |-        |The astronomical date and time for each event of the experiment|
+|IdRFID       |-        |RFID number of a single bat, place-holders here as the RFID devices were not used for this experiment|
+|IdLabel			|-        |Short unique identifying label for each bat|
+|unitLabel		|-        |Code identifying which reward-dispensing device ('flower') was activated during an event|
+|             |RFID     |Detections of a transponder number|
+|             |CondMod  |Detections of both a transponder number and an infra-red beam interruption, identified as a nose-poke|
+|             |pumpBeh  |Events relating to states of the syringe and its refilling algorithm|
+|             |exp      |Events related to the programmed reward schedule, clarified in **SystemMsg**|
+|eventDuration|-        |Duration of event in milliseconds|
+|sense1duration|-       |Total duration of the infra-red beam interruption|
+|reinforce1value|-		  |Reward (in pump step units, delivered by a stepper motor syringe pump filled with sugar-water)|
+|reinforce1Account|-		|Duration of the RFID transponder detection|
+|outFuncLabel |-  	    |Label indicating which 'flower' delivered a reward in response to a nose-poke|
+|outLabel     |-        |'positive' indicates the delivery of a reward|
+|SystemMsg    |-        |Contains the volume of the fluctuating option at the time-points when the bats made visits to the fluctuating option, in units of pump steps|
+|MsgValue1    |-        |Events in the experimental schedule|
 |IdLabel      |-        |Short unique identifying label for each bat|
-|Phase        |-        |Phase of the training stage| 
-|             |Initial  |Initial free-choice phase where the bats could get a reward at both flowers| 
-|             |Forced1  |Forced alternation phase where the bats had to visit the flowers in alternation, one being rewarding, one being blocked. One flower offered a reward volume equal to the fixed output, the other the peak or trough of the fluctuating output| 
-|             |Free1    |Free choice phase with the same reward volume as in Forced1, but the bats had access to reward at both flowers| 
-|             |Forced2  |Forced alternation phase where the bats had to visit the flowers in alternation, one being rewarding, one being blocked. One flower offered a reward volume equal to the fixed output, the other the peak of the fluctuating volume if the trough was offered in Forced1, or the trough if the peak was offered in Forced1| 
-|             |Free2    |Free choice phase with the same reward volume as in Forced2, but the bats had access to reward at both flowers| 
-|Flower       |-        |Number identifying which reward-dispensing device was activated during an event|
-|vis_vol      |-        |Volume of the reward output received by the bat| 
-|unitLabel		|-        |Count of the number of visits made during a particular phase of training|
+|Cage         |-        ||
+|IdLabel      |-        ||
+|Discard      |-        ||
+|Stage      |-        ||
+|Substage     |-        ||
+|Notes  |-        ||
+
 
 ## 6. Content of "Main.csv" file
 This file is the output of the load.R script which processes the folder of raw csv files, with further information supplied by "ConditionsSubjectiveMean", "MasterTableSubjectiveMean", "ConditionsObjectiveMean" and "MasterTableObjectiveMean" csv files. It contains the data from the main experimental days of the experiment. 
