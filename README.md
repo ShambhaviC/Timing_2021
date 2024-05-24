@@ -11,7 +11,7 @@ The folder "analysis/data/processed_data" contains the following CSV files: "Tra
 
 The folder "analysis/R" contains the following R scripts: load.R whose outputs are the processed CSV files, saved in the folder "analysis/data/processed_data"; shiny_gen_timing.R which is a shiny app that was used for the daily analysis of the raw data during the experiments to ensure that the protocol had worked as intended and the bats had drunk enough nectar.
 
-The folder "analysis/images" contains the following images, which are read into the RMarkdownfile: "operant_wall.png"; "flower_cage_schematic.png"; "flower_parts.csv"; design_schematic"; "trailing_predicting_schematic".   
+The folder "analysis/images" contains the following images, which are read into the RMarkdownfile: "operant_wall.png"; "no_access_1.png"; "no_access_2.png"; "baseline.png"
 
 The RMarkdown file with the complete text of the chapter and the complete code for the analysis of the processed CSV files in the folder "analysis/data/processed_data" is found in the folder "analysis". 
 
@@ -37,8 +37,10 @@ These files were written to execute the experimental schedule for each day of th
 |outLabel     |-       |'positive' indicates the delivery of a reward|
 |SystemMsg    |-       |Contains the volume of the fluctuating option at the time-points when the bats made visits to the fluctuating option, in units of pump steps|
 |MsgValue1    |-       |Events in the experimental schedule: 'start' indicating the start of the experimental program; 'end' indicating the end of the experimental program; 'switch' indicating a reversal of reward contingencies between the two flowers of a pair assigned to an individual bat|
+|MsgValue2    |-       ||
+|MSgValue3    |-       ||
 
-## 3. Content of "ConditionsSubjectiveMean.csv" and "ConditionsObjectiveMean.csv"
+## 3. Content of "ConditionsTiming.csv"
 
 This file is user-generated, providing relevant experimental information not present in the raw files.
 
@@ -57,7 +59,7 @@ This file is user-generated, providing relevant experimental information not pre
 |Reversal    |Binary 1 or 0 indicating whether a particular day was the first night or reversal night of a condition|
 |Cohort      |Number of each of cohort of 6 bats run together|
 
-## 4. Content of "MasterTableSubjectiveMean.csv" and "MasterTableObjectiveMean.csv"
+## 4. Content of "MasterTableTiming.csv"
 
 This file is user-generated and allows mapping the raw csv files to the respective experimental days.
 
@@ -67,7 +69,7 @@ This file is user-generated and allows mapping the raw csv files to the respecti
 |Path        |Path of the raw csv file corresponding to the day|
 |Comments    |This column indicates which stages of the experiment were carried out on a particular day|
 
-## 5. Content of "Training_roc.csv" file
+## 5. Content of "Training.csv" file
 
 This file is the output of the load.R script which processes the folder of raw csv files, with further information supplied by "ConditionsSubjectiveMean", "MasterTableSubjectiveMean", "ConditionsObjectiveMean" and "MasterTableObjectiveMean" csv files. It contains the data from the training days of the experiment
 
@@ -85,7 +87,7 @@ This file is the output of the load.R script which processes the folder of raw c
 |vis_vol      |-        |Volume of the reward output received by the bat| 
 |unitLabel		|-        |Count of the number of visits made during a particular phase of training|
 
-## 6. Content of "Main_roc.csv" file
+## 6. Content of "Main.csv" file
 This file is the output of the load.R script which processes the folder of raw csv files, with further information supplied by "ConditionsSubjectiveMean", "MasterTableSubjectiveMean", "ConditionsObjectiveMean" and "MasterTableObjectiveMean" csv files. It contains the data from the main experimental days of the experiment. 
 
 |Column label |Type     |Description |
@@ -117,7 +119,7 @@ This file is the output of the load.R script which processes the folder of raw c
 |Tracking    |-         |This column contains information about whether a bat was reversal responsive or not|
 
 
-## 7. Content of "Pump_subj.csv" file
+## 7. Content of "Pump_data.csv" file
 
 |Column label |Type     |Description |
 |-------------|---------|------------|
@@ -145,7 +147,5 @@ This file is the output of the load.R script which processes the folder of raw c
 |Cohort      |-         |This column is irrelevant to this file|
 |choice      |-         |This column indicates that these events were not choices made by the bats|
 |Experiment  |-         |This column indicates whether the bats experienced which level of the richness treatment|
-
-
 
 For further information contact: shambhavic21@gmail.com
