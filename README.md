@@ -133,27 +133,22 @@ This file is the output of the load.R script which processes the folder of raw c
 |-------------|---------|------------|
 |Day		      |-        |Number of experimental day starting from the first day to the last sequentially|
 |DateTime     |-        |The astronomical date and time for each event of the experiment|
-|IdLabel      |-        |This column is irrelevant to this file|
-|IdLabel      |-        |This column is irrelevant to this file|
+|IdRFID       |-        |RFID number of a single bat, place-holders here as the RFID devices were not used for this experiment|
 |unitLabel		|-        |This column contains the label indicating that the pump was activated in this time|
-|eventDuration|-        |This column is irrelevant to this file|
-|reinforce1value|-      |This column is irrelevant to this file|
-|outFuncLabel|-         |This column is irrelevant to this file|
-|outLabel	   |-         |This column is irrelevant to this file|
-|SystemMsg	 |-         |This column containst the label indicating whether the pump behaviour started or ended at this time point|
-|MsgValue1   |-         |This column is irrelevant to this file|
-|Loc         |-         |This column is irrelevant to this file|
-|Cohortday   |-         |This column is irrelevant to this file|
-|Period      |-         |This column is irrelevant to this file|
-|Amplitude   |-         |This column is irrelevant to this file|
-|Disp        |-         |This column is irrelevant to this file|
-|Rel         |-         |This column is irrelevant to this file|
-|Discard     |-         |This column is irrelevant to this file|
-|Cond        |-         |This column is irrelevant to this file|
-|Reversal    |-         |This column is irrelevant to this file|
-|Cohort      |-         |This column is irrelevant to this file|
-|Cohort      |-         |This column is irrelevant to this file|
-|choice      |-         |This column indicates that these events were not choices made by the bats|
-|Experiment  |-         |This column indicates whether the bats experienced which level of the richness treatment|
+|eventDuration|-        |Duration of event in milliseconds|
+|sense1duration|-       |Total duration of the infra-red beam interruption|
+|reinforce1value|-		  |Reward (in pump step units, delivered by a stepper motor syringe pump filled with sugar-water)|
+|reinforce1Account|-		|Duration of the RFID transponder detection|
+|outFuncLabel |-  	    |Label indicating which 'flower' delivered a reward in response to a nose-poke|
+|outLabel     |-        |'positive' indicates the delivery of a reward|
+|SystemMsg    |-        |Contains the volume of the fluctuating option at the time-points when the bats made visits to the fluctuating option, in units of pump steps|
+|MsgValue1    |-        |Events in the experimental schedule|
+|IdLabel      |-        |Short unique identifying label for each bat|
+|Cage         |-        |Cage number where the bat was housed during the experiment|
+|Discard      |-        |Binary value of 1 or 0 indicating whether the bat should be excluded from analysis|
+|Stage        |Stage of the experiment, either Training or Main|
+|Substage     |Substage of the experiment stage: Baseline or Experimental in the Main experiment|
+|Notes        |Any additional notes|
+
 
 For further information contact: shambhavic21@gmail.com
