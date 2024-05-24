@@ -27,6 +27,7 @@ These files were written to execute the experimental schedule for each day of th
 |IdRFID       |-        |RFID number of a single bat, place-holders here as the RFID devices were not used for this experiment|
 |IdLabel			|-        |Short unique identifying label for each bat|
 |unitLabel		|-        |Code identifying which reward-dispensing device ('flower') was activated during an event|
+|             |RFID     |Detections of a transponder number|
 |             |CondMod  |Detections of both a transponder number and an infra-red beam interruption, identified as a nose-poke|
 |             |pumpBeh  |Events relating to states of the syringe and its refilling algorithm|
 |             |exp      |Events related to the programmed reward schedule, clarified in **SystemMsg**|
